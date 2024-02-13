@@ -11,11 +11,16 @@ class _TimeLine extends State<TimeLine> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.green,
       width: double.maxFinite,
       height: double.maxFinite,
       alignment: Alignment.center,
-      child: const Text("Time Lines"),
+      child: const Text(
+        "Time Lines",
+        style: TextStyle(
+          color: Colors.blue,
+          fontSize: 28,
+        ),
+      ),
     );
   }
 }

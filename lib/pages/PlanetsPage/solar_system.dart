@@ -11,7 +11,7 @@ class SolarSystem extends StatelessWidget {
         title: const Text('Solar System'),
         centerTitle: true,
         backgroundColor: Colors.black,
-        titleTextStyle: TextStyle(color: Colors.yellow[600]!, fontSize: 24.0),
+        titleTextStyle: TextStyle(color: Colors.blue[600]!, fontSize: 24.0),
       ),
       body: const Center(
         child: SizedBox(
@@ -21,11 +21,13 @@ class SolarSystem extends StatelessWidget {
           child: ModelViewer(
             backgroundColor: Colors.black,
             src: 'assets/models/solar_system.glb',
+            iosSrc: "assets/models/solar_system.glb", //! ios için test etmedim
             alt: 'Solar System',
             autoPlay: true,
             autoRotate: true,
-            cameraControls: true, //TODO dökümantasyonda bilgi yok , test edicem
+            cameraControls: true,
             ar: true, //? arttırılmış gerçeklik modunu aktif et
+            loading: Loading.auto,
           ),
         ),
       ),

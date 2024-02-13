@@ -12,7 +12,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(useMaterial3: true),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
+        primaryColor: Colors.black,
+        hintColor: Colors.blue,
+        scaffoldBackgroundColor: Colors.black,
+      ),
       title: "Space Voyage",
       home: const AppHomeScreen(),
     );
@@ -43,28 +49,32 @@ class _AppHomeScreen extends State<AppHomeScreen> {
     return Scaffold(
       //? en alt kısımda gözüken navigasyon barı
       bottomNavigationBar: NavigationBar(
+        //? Sitil ayarları
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+        indicatorColor: Colors.lightBlue,
         backgroundColor: Colors.transparent,
-        //? tıklanan navigasyonun indexine göre vurrentPageIndex değerini günceller
+
+        height: 60.0,
+
+        //? tıklanan navigasyonun indexine göre currentPageIndex değerini günceller
         onDestinationSelected: (int index) =>
             setState(() => currentPageIndex = index),
-
-        //? aktif seçili olanın arkaplan rengi
-        indicatorColor: Colors.lightBlue,
 
         //? seçili olan navigasyon butonunu belirtmek için seçili olanun indexini veriyorum
         selectedIndex: currentPageIndex,
 
-        //? buton labelını sadece seçiliyken göster
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-
         // navigasyon tuşlarını içeren widget türünde liste
         destinations: const <Widget>[
-          NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-          NavigationDestination(icon: Icon(Icons.image), label: "Images"),
           NavigationDestination(
-              icon: Icon(Icons.stop_circle_outlined), label: "Planets"),
+              icon: Icon(Icons.home_outlined, color: Colors.white), label: ""),
           NavigationDestination(
-              icon: Icon(Icons.timeline_outlined), label: "Time Line"),
+              icon: Icon(Icons.image_outlined, color: Colors.white), label: ""),
+          NavigationDestination(
+              icon: Icon(Icons.south_america_outlined, color: Colors.white),
+              label: ""),
+          NavigationDestination(
+              icon: Icon(Icons.timeline_outlined, color: Colors.white),
+              label: ""),
         ],
       ),
       body: _pageList[currentPageIndex],
