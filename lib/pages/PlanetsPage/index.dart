@@ -10,7 +10,5 @@ class Planets extends StatefulWidget {
 
 class _Planets extends State<Planets> {
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(body: SolarSystem());
-  }
+  Widget build(BuildContext context) => const Scaffold(body: SolarSystem());
 }

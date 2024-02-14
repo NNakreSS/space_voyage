@@ -1,11 +1,11 @@
 class NasaImage {
   String? copyright;
-  String? date;
+  String date;
   String? explanation;
   String? hdurl;
-  String? mediaType;
-  String? title;
-  String? url;
+  String mediaType;
+  String title;
+  String url;
 
   NasaImage(
       {required this.copyright,
