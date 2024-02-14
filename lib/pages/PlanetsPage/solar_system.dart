@@ -27,7 +27,6 @@ class SolarSystem extends StatelessWidget {
             autoRotate: true,
             cameraControls: true,
             ar: true, //? arttırılmış gerçeklik modunu aktif et
-            loading: Loading.auto,
           ),
         ),
       ),

@@ -1,8 +1,13 @@
+// from dart
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+// dependency packagets
+import 'package:http/http.dart' as http;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+// models
 import 'package:space_voyage/pages/spaceGalleryPage/model.dart';
 
 class SpaceImages extends StatefulWidget {
@@ -28,12 +33,12 @@ class _SpaceImages extends State<SpaceImages> {
         future: _futureImages,
         builder: (context, snapshot) {
           return snapshot.connectionState == ConnectionState.waiting
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: SpinKitPulsingGrid(color: Colors.blue[300]!))
               : snapshot.hasError
                   ? Center(
                       child: Text(
-                        "Error : ${snapshot.error}",
-                        style: const TextStyle(fontSize: 24, color: Colors.red),
+                        "${snapshot.error}",
+                        style: TextStyle(fontSize: 20, color: Colors.red[300]!),
                       ),
                     )
                   : snapshot.hasData
@@ -65,9 +70,14 @@ class _SpaceImages extends State<SpaceImages> {
 }
 
 Future<List<NasaImage>> fetchImages() async {
-  final Uri uri = Uri.parse(
-      "https://api.nasa.gov/planetary/apod?api_key=MUk5nLBgDcRRJRJpbEdZ0dYjoGn48ObEYHq0XsfR&count=20");
+  await dotenv.load(fileName: ".env");
+  final String apiKey = dotenv.env['API_KEY']!;
+
+  final Uri uri =
+      Uri.parse("https://api.nasa.gov/planetary/apod?api_key=$apiKey&count=10");
+
   final response = await http.get(uri);
+
   if (response.statusCode == 200) {
     final List<dynamic> jsonData = jsonDecode(response.body);
     return jsonData
@@ -75,6 +85,6 @@ Future<List<NasaImage>> fetchImages() async {
         .where((data) => data.mediaType == "image")
         .toList();
   } else {
-    throw Exception('Failed to load images');
+    throw Exception('Failed ${response.statusCode} : connect API ');
   }
 }
