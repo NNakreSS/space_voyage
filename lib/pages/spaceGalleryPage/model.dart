@@ -1,20 +1,20 @@
 class NasaImage {
   String? copyright;
-  String date;
+  String? date;
   String? explanation;
   String? hdurl;
-  String mediaType;
-  String title;
-  String url;
+  String? mediaType;
+  String? title;
+  String? url;
 
   NasaImage(
-      {required this.copyright,
-      required this.date,
-      required this.explanation,
-      required this.hdurl,
-      required this.mediaType,
-      required this.title,
-      required this.url});
+      {this.copyright,
+      this.date,
+      this.explanation,
+      this.hdurl,
+      this.mediaType,
+      this.title,
+      this.url});
 
   factory NasaImage.fromJson(Map<String, dynamic> json) {
     return NasaImage(

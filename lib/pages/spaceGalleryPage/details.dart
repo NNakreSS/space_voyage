@@ -13,7 +13,7 @@ class ImageDetails extends StatelessWidget {
           title: Tooltip(
               message: image.title,
               child: Text(
-                image.title,
+                image.title!,
                 style: const TextStyle(color: Colors.white),
               )),
           backgroundColor: Colors.black,
@@ -24,7 +24,7 @@ class ImageDetails extends StatelessWidget {
         body: ListView(
           children: [
             Image.network(
-              image.hdurl ?? image.url,
+              image.hdurl ?? image.url!,
               loadingBuilder: (BuildContext context, Widget child,
                       ImageChunkEvent? loadingProgress) =>
                   loadingProgress == null
@@ -44,7 +44,7 @@ class ImageDetails extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      image.date,
+                      image.date!,
                       style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.normal,
