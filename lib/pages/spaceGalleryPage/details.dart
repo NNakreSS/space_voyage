@@ -54,7 +54,6 @@ class ImageDetails extends StatelessWidget {
                     Text(
                       "©️ ${image.copyright ?? "Nasa"}",
                       softWrap: true,
-                      textAlign: TextAlign.end,
                       style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.normal,
