@@ -49,7 +49,7 @@ class _SpaceImages extends State<SpaceImages> {
     final String apiKey = dotenv.env['API_KEY'] ?? "DEMO_KEY";
 
     final Uri uri = Uri.parse(
-        "https://api.nasa.gov/planetary/apod?api_key=$apiKey&count=10");
+        "https://api.nasa.gov/planetary/apod?api_key=$apiKey&count=20");
 
     final response = await http.get(uri);
 
@@ -75,20 +75,31 @@ class _SpaceImages extends State<SpaceImages> {
             : Column(
                 children: [
                   Expanded(
-                    child: (MasonryGridView.builder(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GridView.custom(
                         controller: _scrollController,
-                        itemCount: _images.length,
-                        gridDelegate:
-                            const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2),
-                        itemBuilder: (BuildContext context, int index) {
-                          NasaImage image = _images[index];
-                          return Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
+                        gridDelegate: SliverQuiltedGridDelegate(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 5,
+                          crossAxisSpacing: 5,
+                          repeatPattern: QuiltedGridRepeatPattern.inverted,
+                          pattern: const [
+                            QuiltedGridTile(2, 2),
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(2, 2),
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(1, 1),
+                          ],
+                        ),
+                        childrenDelegate: SliverChildBuilderDelegate(
+                          childCount: _images.length,
+                          (context, index) {
+                            final image = _images[index];
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
                               child: GestureDetector(
-                                child: CachedNetworkImage(imageUrl: image.url),
                                 onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -97,10 +108,31 @@ class _SpaceImages extends State<SpaceImages> {
                                     ),
                                   ),
                                 ),
+                                child: CachedNetworkImage(
+                                  imageUrl: image.url,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                          colorFilter: const ColorFilter.mode(
+                                              Colors.red, BlendMode.colorBurn)),
+                                    ),
+                                  ),
+                                  placeholder: (context, url) =>
+                                      SpinKitCubeGrid(
+                                    color: Colors.grey,
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ),
                               ),
-                            ),
-                          );
-                        })),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
                   ),
                   if (_isLoading)
                     Padding(
