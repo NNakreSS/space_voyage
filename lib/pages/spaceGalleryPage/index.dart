@@ -81,7 +81,7 @@ class _SpaceImages extends State<SpaceImages> {
 
 Future<List<NasaImage>> fetchImages() async {
   await dotenv.load(fileName: ".env");
-  final String apiKey = dotenv.env['API_KEY']!;
+  final String apiKey = dotenv.env['API_KEY'] ?? "DEMO_KEY";
 
   final Uri uri =
       Uri.parse("https://api.nasa.gov/planetary/apod?api_key=$apiKey&count=50");
