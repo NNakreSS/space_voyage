@@ -12,9 +12,9 @@ class Planets extends StatefulWidget {
 }
 
 class _Planets extends State<Planets> {
-  late int _visibleItems = 3;
-  late double _itemExtent = 270.0;
-  late int _focusedIndex = 0;
+  late final int _visibleItems = 3;
+  late final double _itemExtent = 270.0;
+  late int _focusedIndex = Planet.planets.length - 1;
 
   @override
   Widget build(BuildContext context) => Scaffold(
