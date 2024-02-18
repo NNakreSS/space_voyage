@@ -42,18 +42,9 @@ class _Planets extends State<Planets> {
           enableBackItemsShadow: true,
           backItemsShadowColor: Theme.of(context).scaffoldBackgroundColor,
           padding: const EdgeInsets.all(20),
-          // tıklandığında detay sayfasına git
           onTapFrontItem: (index) {
-            // final color = Colors.accents[index! % Colors.accents.length];
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute<dynamic>(
-            //     builder: (_) => ContactDetailScreen(
-            //       contact: Contact.contacts[index],
-            //       color: color,
-            //     ),
-            //   ),
-            // );
+            final planet = Planet.planets[index!];
+            print(planet.planetName);
           },
           onChangeFrontItem: (value) => setState(() {
             _focusedIndex = value;
