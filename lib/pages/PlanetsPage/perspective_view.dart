@@ -167,7 +167,7 @@ class _PerspectiveItems extends StatelessWidget {
               _TransformedItem(
                 heightItem: heightItem,
                 factorChange: pagePercent,
-                translateY: height + 200,
+                translateY: height + 150,
                 endTranslateY: height - heightItem!,
                 child: children[currentIndex! + 1],
               )
@@ -186,8 +186,8 @@ class _TransformedItem extends StatelessWidget {
     required this.child,
     required this.factorChange,
     this.endScale = 1.0,
-    this.scale = 1.0,
-    this.endTranslateY = -500.0,
+    this.scale = 2.0,
+    this.endTranslateY = 300.0,
     this.translateY = 0.0,
   });
 
