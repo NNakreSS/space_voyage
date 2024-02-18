@@ -43,22 +43,31 @@ class ImageDetails extends StatelessWidget {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      image.date!,
-                      style: const TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.normal,
-                          fontStyle: FontStyle.italic,
-                          color: Colors.grey),
+                    Expanded(
+                      child: Text(
+                        image.date!,
+                        style: const TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.grey),
+                      ),
                     ),
-                    Text(
-                      "©️ ${image.copyright ?? "Nasa"}",
-                      softWrap: true,
-                      style: const TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.normal,
-                          fontStyle: FontStyle.italic,
-                          color: Colors.grey),
+                    Expanded(
+                      child: Tooltip(
+                        message: image.copyright ?? "Nasa",
+                        child: Text(
+                          "©️ ${image.copyright ?? "Nasa"}",
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.grey,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
                     ),
                   ]),
             ),

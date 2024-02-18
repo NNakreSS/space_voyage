@@ -10,7 +10,8 @@ class SolarSystem extends StatelessWidget {
           title: const Text('Solar System'),
           centerTitle: true,
           backgroundColor: Colors.black,
-          titleTextStyle: TextStyle(color: Colors.blue[600]!, fontSize: 24.0),
+          titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24.0),
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
         body: const Center(
           child: SizedBox(

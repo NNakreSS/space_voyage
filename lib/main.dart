@@ -52,7 +52,7 @@ class _AppHomeScreen extends State<AppHomeScreen> {
         //? Sitil ayarları
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         indicatorColor: Colors.lightBlue,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black,
 
         height: 60.0,
 
