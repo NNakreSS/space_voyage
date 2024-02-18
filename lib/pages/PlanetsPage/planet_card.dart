@@ -25,7 +25,7 @@ class PlanetCard extends StatelessWidget {
             if (isFocused)
               Text(
                 planet.planetName,
-                style: GoogleFonts.exo2(
+                style: GoogleFonts.novaFlat(
                   textStyle: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

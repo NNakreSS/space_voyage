@@ -39,6 +39,7 @@ class PerspectiveListViewState extends State<PerspectiveListView> {
   void initState() {
     _currentIndex = widget.initialIndex;
     _pageController = PageController(
+      viewportFraction: 1 / widget.visualizedItems!,
       initialPage: _currentIndex!,
     );
     _pagePercent = 0.0;
@@ -142,8 +143,8 @@ class _PerspectiveItems extends StatelessWidget {
             if (currentIndex! > (generatedItems - 1))
               _TransformedItem(
                 heightItem: heightItem,
-                factorChange: 2,
-                endScale: 1,
+                factorChange: 1,
+                endScale: .5,
                 child: children[currentIndex! - generatedItems],
               )
             else
