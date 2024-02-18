@@ -39,7 +39,6 @@ class PerspectiveListViewState extends State<PerspectiveListView> {
   void initState() {
     _currentIndex = widget.initialIndex;
     _pageController = PageController(
-      viewportFraction: 1.0,
       initialPage: _currentIndex!,
     );
     _pagePercent = 0.0;
@@ -71,7 +70,7 @@ class PerspectiveListViewState extends State<PerspectiveListView> {
             Padding(
               padding: widget.padding,
               child: _PerspectiveItems(
-                generatedItems: widget.visualizedItems! - 1,
+                generatedItems: widget.visualizedItems!,
                 currentIndex: _currentIndex,
                 heightItem: widget.itemExtent,
                 pagePercent: _pagePercent,
@@ -87,7 +86,7 @@ class PerspectiveListViewState extends State<PerspectiveListView> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        widget.backItemsShadowColor.withOpacity(.6),
+                        widget.backItemsShadowColor.withOpacity(.8),
                         widget.backItemsShadowColor.withOpacity(0),
                       ],
                     ),
@@ -207,7 +206,7 @@ class _TransformedItem extends StatelessWidget {
       transform: Matrix4.identity()
         ..scale(lerpDouble(scale, endScale, factorChange!))
         ..translate(
-          2.0,
+          0.0,
           lerpDouble(translateY, endTranslateY, factorChange!)!,
         ),
       child: Align(

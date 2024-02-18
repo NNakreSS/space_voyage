@@ -5,12 +5,12 @@ import 'package:space_voyage/pages/PlanetsPage/model.dart';
 class PlanetCard extends StatelessWidget {
   const PlanetCard({
     super.key,
-    required this.borderColor,
     required this.planet,
+    required this.isFocused,
   });
 
-  final Color borderColor;
   final Planet planet;
+  final bool isFocused;
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +22,17 @@ class PlanetCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Align(heightFactor: .5, child: Image.asset(planet.planetImage)),
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Text(
+            if (isFocused)
+              Text(
                 planet.planetName,
                 style: GoogleFonts.exo2(
                   textStyle: const TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.bold,
                     fontSize: 46,
                   ),
                 ),
-              ),
-            )
+              )
           ],
         ),
       ),

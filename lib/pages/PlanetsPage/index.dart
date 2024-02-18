@@ -12,15 +12,9 @@ class Planets extends StatefulWidget {
 }
 
 class _Planets extends State<Planets> {
-  int? _visibleItems;
-  double? _itemExtent;
-
-  @override
-  void initState() {
-    _visibleItems = 4;
-    _itemExtent = 270.0;
-    super.initState();
-  }
+  late int _visibleItems = 3;
+  late double _itemExtent = 270.0;
+  late int _focusedIndex = 0;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -61,16 +55,17 @@ class _Planets extends State<Planets> {
             //   ),
             // );
           },
-
+          onChangeFrontItem: (value) => setState(() {
+            _focusedIndex = value;
+          }),
           // listenin elemanları
           children: List.generate(
             Planet.planets.length,
             (index) {
-              final borderColor = Colors.accents[index % Colors.accents.length];
               final planet = Planet.planets[index];
               return PlanetCard(
-                borderColor: borderColor,
                 planet: planet,
+                isFocused: (index == _focusedIndex),
               );
             },
           ),
