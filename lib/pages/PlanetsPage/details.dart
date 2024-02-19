@@ -11,7 +11,7 @@ class PlanetDetails extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(
-            planet.planetName,
+            planet.name,
             style: const TextStyle(color: Colors.white),
           ),
           actions: [
@@ -32,9 +32,32 @@ class PlanetDetails extends StatelessWidget {
           children: [
             Center(
                 child: Image.asset(
-              planet.planetImage,
-              width: 330,
+              planet.image,
+              width: 250,
             ).animate().fade(duration: 2.seconds)),
+            Expanded(
+              child: ListView.builder(
+                itemCount: planet.info.length,
+                itemBuilder: (context, index) {
+                  final entry = planet.info.entries.toList()[index];
+                  return ListTile(
+                    iconColor: Colors.blue[300]!,
+                    leading: const Icon(Icons.radio_button_checked),
+                    title: Text(
+                      entry.key,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                      ),
+                    ),
+                    subtitle: Text(
+                      entry.value.toString(),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         )),
       );

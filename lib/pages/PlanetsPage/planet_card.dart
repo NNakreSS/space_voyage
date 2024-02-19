@@ -15,16 +15,16 @@ class PlanetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: planet.planetName,
+      tag: planet.name,
       child: Material(
         color: Colors.transparent,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Align(heightFactor: .5, child: Image.asset(planet.planetImage)),
+            Align(heightFactor: .5, child: Image.asset(planet.image)),
             if (isFocused)
               Text(
-                planet.planetName,
+                planet.name,
                 style: GoogleFonts.novaFlat(
                   textStyle: const TextStyle(
                     color: Colors.white,
