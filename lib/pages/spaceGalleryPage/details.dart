@@ -181,6 +181,7 @@ class _ImageDetailsState extends State<ImageDetails> {
 
   // file downloader
   Future<void> downloadImage(String? url, String name) async {
+    if (_downloadStatus != 'idle') return;
     setState(() {
       _downloadStatus = 'downloading';
     });
