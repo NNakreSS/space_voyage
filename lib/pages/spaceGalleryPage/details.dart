@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:space_voyage/pages/spaceGalleryPage/model.dart';
@@ -23,21 +25,45 @@ class ImageDetails extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            Image.network(
-              image.hdurl ?? image.url!,
-              loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent? loadingProgress) =>
-                  loadingProgress == null
-                      ? child
-                      : const Padding(
-                          padding: EdgeInsets.all(30.0),
-                          child: Center(
-                            child: SpinKitCubeGrid(
-                              color: Colors.white,
+            Stack(children: [
+              Image.network(
+                image.hdurl ?? image.url!,
+                loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) =>
+                    loadingProgress == null
+                        ? child
+                        : const Padding(
+                            padding: EdgeInsets.all(60.0),
+                            child: Center(
+                              child: SpinKitCubeGrid(
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-            ),
+              ),
+              Positioned(
+                right: 10.0,
+                bottom: 70.0,
+                child: GestureDetector(
+                  onTap: () =>
+                      downloadImage(image.hdurl ?? image.url, image.title!),
+                  child: const Icon(
+                    size: 40,
+                    Icons.download,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              const Positioned(
+                right: 10.0,
+                bottom: 20.0,
+                child: Icon(
+                  size: 40,
+                  Icons.star_outline_rounded,
+                  color: Colors.white,
+                ),
+              ),
+            ]),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -85,4 +111,14 @@ class ImageDetails extends StatelessWidget {
           ],
         ),
       );
+}
+
+Future<void> downloadImage(String? url, String name) async {
+  FileDownloader.downloadFile(
+      url: url!,
+      name: name,
+      onDownloadCompleted: (path) {
+        final File file = File(path);
+        print(file);
+      });
 }
