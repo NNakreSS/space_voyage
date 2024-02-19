@@ -144,7 +144,7 @@ class _PerspectiveItems extends StatelessWidget {
               _TransformedItem(
                 heightItem: heightItem,
                 factorChange: 1,
-                endScale: .5,
+                // endScale: .5,
                 child: children[currentIndex! - generatedItems],
               )
             else
@@ -154,8 +154,8 @@ class _PerspectiveItems extends StatelessWidget {
                   ? _TransformedItem(
                       heightItem: heightItem,
                       factorChange: pagePercent,
-                      scale: lerpDouble(0.01, 1, (index + 1) / generatedItems),
-                      endScale: lerpDouble(0.01, 1, index / generatedItems),
+                      scale: lerpDouble(0.03, 1, (index + 1) / generatedItems),
+                      endScale: lerpDouble(0.03, 1, index / generatedItems),
                       translateY:
                           (height - heightItem!) * (index + 1) / generatedItems,
                       endTranslateY:
@@ -168,7 +168,7 @@ class _PerspectiveItems extends StatelessWidget {
               _TransformedItem(
                 heightItem: heightItem,
                 factorChange: pagePercent,
-                translateY: height + 150,
+                translateY: height,
                 endTranslateY: height - heightItem!,
                 child: children[currentIndex! + 1],
               )
@@ -187,8 +187,8 @@ class _TransformedItem extends StatelessWidget {
     required this.child,
     required this.factorChange,
     this.endScale = 1.0,
-    this.scale = 2.0,
-    this.endTranslateY = 300.0,
+    this.scale = 1.3,
+    this.endTranslateY = -500.0,
     this.translateY = 0.0,
   });
 
