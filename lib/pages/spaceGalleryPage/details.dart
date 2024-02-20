@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +14,7 @@ class ImageDetails extends StatefulWidget {
 }
 
 class _ImageDetailsState extends State<ImageDetails> {
-  late String _downloadStatus;
-
-  @override
-  void initState() {
-    super.initState();
-    _downloadStatus = 'idle';
-  }
+  late String _downloadStatus = "idle";
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -38,20 +33,26 @@ class _ImageDetailsState extends State<ImageDetails> {
         body: ListView(
           children: [
             Stack(children: [
-              Image.network(
-                widget.image.hdurl ?? widget.image.url!,
-                loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent? loadingProgress) =>
-                    loadingProgress == null
-                        ? child
-                        : const Padding(
-                            padding: EdgeInsets.all(60.0),
-                            child: Center(
-                              child: SpinKitCubeGrid(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
+              SizedBox(
+                width: double.maxFinite,
+                height: 300,
+                child: CachedNetworkImage(
+                  imageUrl: widget.image.hdurl ?? widget.image.url!,
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  placeholder: (context, url) =>
+                      const SpinKitCubeGrid(color: Colors.white),
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.error,
+                    color: Colors.red,
+                  ),
+                ),
               ),
               Positioned(
                 right: 10.0,
