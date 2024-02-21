@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCSFJRB4koVSaehvV2k6mcbK1BrRRq0xWI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>403090223370</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.spaceVoyage</string>
+	<key>PROJECT_ID</key>
+	<string>space-voyage-56c4a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>space-voyage-56c4a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:403090223370:ios:11e909143e3a28a40f8af3</string>
+</dict>
+</plist>

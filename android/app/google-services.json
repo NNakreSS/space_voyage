@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "403090223370",
+    "firebase_url": "https://space-voyage-56c4a-default-rtdb.firebaseio.com",
+    "project_id": "space-voyage-56c4a",
+    "storage_bucket": "space-voyage-56c4a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403090223370:android:e1fed52a9d37bbf30f8af3",
+        "android_client_info": {
+          "package_name": "com.example.space_voyage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "403090223370-u974ccu5sd9q5s26ikdbjb95m3jfdlh3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8XE9JAce-sM1tBDJuzeSf9K9wSymJ8FM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "403090223370-u974ccu5sd9q5s26ikdbjb95m3jfdlh3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "403090223370-49fgm9nclbersg3sfpofl3r7fnqc6tf6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.spaceVoyage.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403090223370:android:818f629f3279eccd0f8af3",
+        "android_client_info": {
+          "package_name": "com.nakres.space_voyage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "403090223370-u974ccu5sd9q5s26ikdbjb95m3jfdlh3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8XE9JAce-sM1tBDJuzeSf9K9wSymJ8FM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "403090223370-u974ccu5sd9q5s26ikdbjb95m3jfdlh3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "403090223370-49fgm9nclbersg3sfpofl3r7fnqc6tf6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.spaceVoyage.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

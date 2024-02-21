@@ -1,13 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:space_voyage/pages/HomePage/index.dart';
 import 'package:space_voyage/pages/PlanetsPage/index.dart';
 import 'package:space_voyage/pages/spaceGalleryPage/index.dart';
 import 'package:space_voyage/pages/TimeLinePage/index.dart';
+// firebase
+import 'package:firebase_core/firebase_core.dart';
+import 'package:space_voyage/services/auth_service.dart';
+import 'firebase_options.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -20,61 +31,86 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.black,
       ),
       title: "Space Voyage",
-      home: const AppHomeScreen(),
+      home: StreamBuilder(
+        stream: _authService.user,
+        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+          final isLogin = snapshot.hasData ? true : false;
+          return AppHomeScreen(isLogin: isLogin, authService: _authService);
+        },
+      ),
     );
   }
 }
 
-/* anasayfayı statefulwidget olarak tanımladığımız için,
+/* Ana sayfayı statefulwidget olarak tanımladığımız için,
 değişen sayfa indexine göre body içerisindeki widget yani sayflarımız arasında geçiş sağlanacak*/
 class AppHomeScreen extends StatefulWidget {
-  const AppHomeScreen({Key? key}) : super(key: key);
+  final bool isLogin;
+  final AuthService authService;
+
+  const AppHomeScreen({
+    Key? key,
+    required this.isLogin,
+    required this.authService,
+  }) : super(key: key);
+
   @override
   State<AppHomeScreen> createState() => _AppHomeScreen();
 }
 
 class _AppHomeScreen extends State<AppHomeScreen> {
-  //? aktif olan sayfanın indexi;
+  // Aktif olan sayfanın indexi
   int currentPageIndex = 0;
-  //? sayfalar arası geçiş yapabilmek için sayfaları bir list array olarak tutuyoruz.
-  static const List<Widget> _pageList = [
-    Home(),
-    SpaceImages(),
-    Planets(),
-    TimeLine(),
-  ];
+  // Sayfalar arası geçiş yapabilmek için sayfaları bir list array olarak tutuyoruz.
+  List<Widget> _pageList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageList = [
+      Home(isLogin: widget.isLogin, authService: widget.authService),
+      const SpaceImages(),
+      const Planets(),
+      const TimeLine(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //? en alt kısımda gözüken navigasyon barı
+      // En alt kısımda gözüken navigasyon barı
       bottomNavigationBar: NavigationBar(
-        //? Sitil ayarları
+        // Sitil ayarları
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         indicatorColor: Colors.lightBlue,
         backgroundColor: Colors.black,
-
         height: 60.0,
 
-        //? tıklanan navigasyonun indexine göre currentPageIndex değerini günceller
+        // Tıklanan navigasyonun indexine göre currentPageIndex değerini günceller
         onDestinationSelected: (int index) =>
             setState(() => currentPageIndex = index),
 
-        //? seçili olan navigasyon butonunu belirtmek için seçili olanun indexini veriyorum
+        // Seçili olan navigasyon butonunu belirtmek için seçili olanın indexini veriyorum
         selectedIndex: currentPageIndex,
 
-        // navigasyon tuşlarını içeren widget türünde liste
+        // Navigasyon tuşlarını içeren widget türünde liste
         destinations: const <Widget>[
           NavigationDestination(
-              icon: Icon(Icons.home_outlined, color: Colors.white), label: ""),
+            icon: Icon(Icons.home_outlined, color: Colors.white),
+            label: "",
+          ),
           NavigationDestination(
-              icon: Icon(Icons.image_outlined, color: Colors.white), label: ""),
+            icon: Icon(Icons.image_outlined, color: Colors.white),
+            label: "",
+          ),
           NavigationDestination(
-              icon: Icon(Icons.south_america_outlined, color: Colors.white),
-              label: ""),
+            icon: Icon(Icons.south_america_outlined, color: Colors.white),
+            label: "",
+          ),
           NavigationDestination(
-              icon: Icon(Icons.timeline_outlined, color: Colors.white),
-              label: ""),
+            icon: Icon(Icons.timeline_outlined, color: Colors.white),
+            label: "",
+          ),
         ],
       ),
       body: _pageList[currentPageIndex],
