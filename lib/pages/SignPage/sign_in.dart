@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:space_voyage/pages/SignPage/sign_up.dart';
+import 'package:space_voyage/services/auth_service.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class _SignInPageState extends State<SignInPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery.of(context).size.width * 0.9,
                 child: TextFormField(
                   style: const TextStyle(color: Colors.white),
                   cursorColor: Colors.grey,
@@ -47,9 +47,9 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 20.0),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery.of(context).size.width * 0.9,
                 child: TextFormField(
                   style: const TextStyle(color: Colors.white),
                   cursorColor: Colors.grey,
@@ -74,7 +74,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 30.0),
+              const SizedBox(height: 20.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   shape: const RoundedRectangleBorder(
@@ -83,11 +83,10 @@ class _SignInPageState extends State<SignInPage> {
                       Size.fromWidth(MediaQuery.of(context).size.width / 2),
                   backgroundColor: Colors.blue,
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignUpPage()),
-                  );
+                onPressed: () async {
+                  final email = _usernameController.text;
+                  final password = _passwordController.text;
+                  AuthService().signIn(email: email, password: password);
                 },
                 child: const Text(
                   'Login',
@@ -110,7 +109,12 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => print("sa"),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
+                    },
                     child: Text(
                       'Create an account',
                       style: TextStyle(
