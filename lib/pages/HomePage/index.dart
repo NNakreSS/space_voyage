@@ -78,14 +78,28 @@ class Home extends StatelessWidget {
                   ),
                   Positioned(
                       right: 10,
-                      bottom: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            surfaceTintColor: Colors.blue,
-                            backgroundColor: Colors.transparent),
-                        onPressed: () => print("sa"),
-                        child: const Text("Login"),
-                      ))
+                      bottom: 70,
+                      child: !isLogin
+                          ? ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                backgroundColor: Colors.white,
+                              ),
+                              onPressed: () => print("sa"),
+                              child: const Text(
+                                "Login",
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w900),
+                              ),
+                            )
+                          : const Text(
+                              "Serkan Atmaca",
+                              style: TextStyle(color: Colors.black),
+                            ))
                 ]),
               )
             ],

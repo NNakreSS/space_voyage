@@ -52,7 +52,7 @@ class _SpaceImages extends State<SpaceImages> {
     final String apiKey = dotenv.env['API_KEY'] ?? "DEMO_KEY";
 
     final Uri uri = Uri.parse(
-        "https://api.nasa.gov/planetary/apod?api_key=$apiKey&count=20");
+        "https://api.nasa.gov/planetary/apod?api_key=$apiKey&count=15");
 
     final response = await http.get(uri);
 
