@@ -77,11 +77,13 @@ class Home extends StatelessWidget {
                                 controller.repeat(reverse: false))
                         .rotate(duration: 50.seconds),
                   ),
+                  //? kullanıcı girişi yapıldıysa favoriler ve kullanıcı adını gösteren içerik ,! login butonu
                   Positioned(
                       right: 10,
                       bottom: 70,
-                      child: !isLogin
+                      child: !isLogin // eğer giriş yapılmadıysa
                           ? ElevatedButton(
+                              // kullanıcı giriş ve hesap oluşturma butonu
                               style: ElevatedButton.styleFrom(
                                 padding:
                                     const EdgeInsets.fromLTRB(20, 5, 20, 5),
@@ -95,13 +97,14 @@ class Home extends StatelessWidget {
                                     builder: (context) => SignInPage(),
                                   )),
                               child: const Text(
-                                "Login",
+                                "Sign In",
                                 style: TextStyle(
                                     color: Colors.blue,
                                     fontSize: 24,
                                     fontWeight: FontWeight.w900),
                               ),
                             )
+                          //? kullanıcı giriş yaptıysa gösterilecke bilgiler
                           : const Text(
                               "Serkan Atmaca",
                               style: TextStyle(color: Colors.black),

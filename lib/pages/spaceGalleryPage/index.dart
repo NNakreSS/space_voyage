@@ -42,6 +42,12 @@ class _SpaceImages extends State<SpaceImages> {
     });
   }
 
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   Future<void> _fetchImages() async {
     if (_isLoading) return;
     setState(() {
