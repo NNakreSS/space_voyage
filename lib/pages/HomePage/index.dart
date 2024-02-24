@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:space_voyage/pages/SignPage/Sign_in.dart';
 import 'package:space_voyage/services/auth_service.dart';
 
 class Home extends StatelessWidget {
@@ -82,12 +83,17 @@ class Home extends StatelessWidget {
                       child: !isLogin
                           ? ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 5, 20, 5),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5)),
                                 backgroundColor: Colors.white,
                               ),
-                              onPressed: () => print("sa"),
+                              onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SignInPage(),
+                                  )),
                               child: const Text(
                                 "Login",
                                 style: TextStyle(
