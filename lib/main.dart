@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:space_voyage/pages/HomePage/index.dart';
 import 'package:space_voyage/pages/PlanetsPage/index.dart';
@@ -6,7 +5,6 @@ import 'package:space_voyage/pages/spaceGalleryPage/index.dart';
 import 'package:space_voyage/pages/TimeLinePage/index.dart';
 // firebase
 import 'package:firebase_core/firebase_core.dart';
-import 'package:space_voyage/services/auth_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -14,11 +12,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final AuthService _authService = AuthService();
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +29,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.black,
       ),
       title: "Space Voyage",
-      home: StreamBuilder(
-        stream: _authService.user,
-        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          return const AppHomeScreen();
-        },
-      ),
+      home: const AppHomeScreen(),
     );
   }
 }
@@ -62,7 +55,7 @@ class _AppHomeScreen extends State<AppHomeScreen> {
   void initState() {
     super.initState();
     _pageList = [
-      const HomePage(),
+      HomePage(),
       const SpaceImages(),
       const Planets(),
       const TimeLine(),

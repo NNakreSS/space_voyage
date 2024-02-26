@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:space_voyage/pages/SignPage/Sign_in.dart';
+import 'package:space_voyage/services/auth_service.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+  final User? user = AuthService().currentUser;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -12,55 +16,80 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Icon(
-                Icons.info,
-                color: Colors.blue[100]!,
-              ),
-            )
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              header(),
-              main(context),
+  Widget build(BuildContext context) => StreamBuilder(
+      stream: AuthService().authStateChanges,
+      builder: (context2, snapshot) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Icon(
+                  Icons.info,
+                  color: Colors.blue[100]!,
+                ),
+              )
             ],
           ),
-        ),
-      );
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                header(),
+                main(context, snapshot),
+              ],
+            ),
+          ),
+        );
+      });
 
-  Expanded main(BuildContext context) {
+  Expanded main(BuildContext context, snapshot) {
     return Expanded(
       //? widgetların üst üste gelmesini sağlar (css absolute ile aynı işlev)
       child: Stack(children: [
         //? dünya görselini ekranın sol tarafına doğru yerleştiriyorum
         earthImage(),
         //? kullanıcı girişi yapıldıysa favoriler ve kullanıcı adını gösteren içerik ,! login butonu
-        loginInfo(context)
+        loginInfo(context, snapshot).animate().fade(duration: 500.microseconds)
       ]),
     );
   }
 
-  Positioned loginInfo(BuildContext context) {
+  Positioned loginInfo(BuildContext context, snapshot) {
     return Positioned(
-        right: 10,
-        bottom: 70,
-        child: true // eğer giriş yapılmadıysa
-            ? loginButton(context)
-            : userNameText());
+      right: 10,
+      bottom: 70,
+      child: !snapshot.hasData
+          // eğer giriş yapılmadıysa
+          ? loginButton(context)
+          // eğer giriş yapıldıysa
+          : Column(
+              children: [
+                userNameText(),
+                const SizedBox(height: 20),
+                logOutButton(context)
+              ],
+            ),
+    );
   }
 
-  Text userNameText() {
-    return const Text(
-      "Serkan Atmaca",
-      style: TextStyle(color: Colors.black),
+  Widget userNameText() {
+    return FutureBuilder<String?>(
+      future: AuthService().getUserName(),
+      builder: (context, snapshot) =>
+          (snapshot.connectionState == ConnectionState.waiting)
+              ? const SpinKitWave(
+                  size: 20,
+                  color: Colors.white,
+                )
+              : Text(
+                  snapshot.data!,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
     );
   }
 
@@ -70,7 +99,7 @@ class _HomePageState extends State<HomePage> {
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white10,
       ),
       onPressed: () => Navigator.push(
           context,
@@ -80,7 +109,23 @@ class _HomePageState extends State<HomePage> {
       child: const Text(
         "Sign In",
         style: TextStyle(
-            color: Colors.blue, fontSize: 24, fontWeight: FontWeight.w900),
+            color: Colors.blue, fontSize: 24, fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+
+  logOutButton(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        backgroundColor: Colors.white10,
+      ),
+      onPressed: () => AuthService().signOut(),
+      child: Text(
+        "Log Out",
+        style: TextStyle(
+            color: Colors.red[300]!, fontSize: 24, fontWeight: FontWeight.w600),
       ),
     );
   }

@@ -5,7 +5,8 @@ class AuthService {
   final userCollection = FirebaseFirestore.instance.collection("users");
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Stream<User?> get user => _auth.authStateChanges();
+  User? get currentUser => _auth.currentUser;
+  Stream<User?> get authStateChanges => _auth.authStateChanges();
 
 // kullanıcı giriş
   Future<User?> signIn(
@@ -40,7 +41,11 @@ class AuthService {
       );
 
       if (userCredential.user != null) {
-        _registerUser(name: name, email: email, password: password);
+        _registerUser(
+            name: name,
+            email: email,
+            password: password,
+            uid: userCredential.user!.uid);
       }
 
       return userCredential.user;
@@ -62,8 +67,9 @@ class AuthService {
   Future<void> _registerUser(
       {required String name,
       required String email,
-      required String password}) async {
-    await userCollection.doc().set({
+      required String password,
+      required String uid}) async {
+    await userCollection.doc(uid).set({
       "name": name,
       "email": email,
       "password": password,
@@ -84,6 +90,23 @@ class AuthService {
     } catch (e) {
       print(e.toString());
       return false;
+    }
+  }
+
+  // AuthService sınıfında
+  Future<String?> getUserName() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) return "User Not Found";
+
+      DocumentSnapshot userDoc = await userCollection.doc(user.uid).get();
+      print(user.uid);
+      final Map<String, dynamic> userData =
+          userDoc.data() as Map<String, dynamic>;
+      return userData['name'] ?? "No name";
+    } catch (e) {
+      print(e.toString());
+      return "No name";
     }
   }
 }

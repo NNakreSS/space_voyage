@@ -7,10 +7,10 @@ class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  State<SignInPage> createState() => SignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class SignInPageState extends State<SignInPage> {
   final TextEditingController _usermailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -69,7 +69,7 @@ class _SignInPageState extends State<SignInPage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SignUpPage()),
+              MaterialPageRoute(builder: (context) => const SignUpPage()),
             );
           },
           child: Text(
@@ -95,7 +95,9 @@ class _SignInPageState extends State<SignInPage> {
       onPressed: () async {
         final email = _usermailController.text;
         final password = _passwordController.text;
-        AuthService().signIn(email: email, password: password);
+        final isLogin =
+            await AuthService().signIn(email: email, password: password);
+        if (isLogin != null) Navigator.pop(context);
       },
       child: const Text(
         'Login',
