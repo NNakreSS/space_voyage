@@ -5,9 +5,7 @@ class AuthService {
   final userCollection = FirebaseFirestore.instance.collection("users");
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Stream<User?> get user {
-    return _auth.authStateChanges();
-  }
+  Stream<User?> get user => _auth.authStateChanges();
 
 // kullanıcı giriş
   Future<User?> signIn(

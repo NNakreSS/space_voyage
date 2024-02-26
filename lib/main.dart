@@ -62,7 +62,7 @@ class _AppHomeScreen extends State<AppHomeScreen> {
   void initState() {
     super.initState();
     _pageList = [
-      const Home(),
+      const HomePage(),
       const SpaceImages(),
       const Planets(),
       const TimeLine(),
