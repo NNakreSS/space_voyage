@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:space_voyage/components/text_field.dart';
 import 'package:space_voyage/pages/SignPage/sign_up.dart';
 import 'package:space_voyage/services/auth_service.dart';
 
@@ -10,12 +11,12 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _usermailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _usermailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -30,55 +31,28 @@ class _SignInPageState extends State<SignInPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Container(
+                margin: const EdgeInsets.all(30),
+                child: const Text(
+                  "Sign In",
+                  style: TextStyle(fontSize: 40, color: Colors.white),
+                ),
+              ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
-                child: TextFormField(
-                  style: const TextStyle(color: Colors.white),
-                  cursorColor: Colors.grey,
-                  controller: _usernameController,
-                  decoration: InputDecoration(
-                    labelText: 'Mail',
-                    labelStyle:
-                        const TextStyle(color: Colors.grey, fontSize: 14),
-                    floatingLabelStyle:
-                        const TextStyle(color: Colors.white, fontSize: 20),
-                    prefixIcon: Icon(
-                      Icons.email,
-                      color: Colors.blue[300],
-                    ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 10.0),
-                    border: const OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue[300]!)),
-                  ),
+                child: CustomTextFormField(
+                  controller: _usermailController,
+                  labelText: "Mail",
+                  icon: Icons.mail,
                 ),
               ),
               const SizedBox(height: 20.0),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
-                child: TextFormField(
-                  style: const TextStyle(color: Colors.white),
-                  cursorColor: Colors.grey,
+                child: CustomTextFormField(
                   controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    labelStyle:
-                        const TextStyle(color: Colors.grey, fontSize: 14),
-                    floatingLabelStyle:
-                        const TextStyle(color: Colors.white, fontSize: 20),
-                    prefixIcon: Icon(
-                      Icons.lock,
-                      color: Colors.blue[300],
-                    ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 10.0),
-                    border: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue[300]!)),
-                  ),
+                  labelText: "Password",
+                  icon: Icons.lock,
                 ),
               ),
               const SizedBox(height: 20.0),
@@ -91,7 +65,7 @@ class _SignInPageState extends State<SignInPage> {
                   backgroundColor: Colors.blue,
                 ),
                 onPressed: () async {
-                  final email = _usernameController.text;
+                  final email = _usermailController.text;
                   final password = _passwordController.text;
                   AuthService().signIn(email: email, password: password);
                 },

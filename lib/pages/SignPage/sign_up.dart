@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:space_voyage/components/text_field.dart';
 import 'package:space_voyage/services/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -46,50 +47,18 @@ class _SignUpPageState extends State<SignUpPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Expanded(
-                      child: TextFormField(
-                        style: const TextStyle(color: Colors.white),
-                        cursorColor: Colors.grey,
+                      child: CustomTextFormField(
                         controller: _firstnameController,
-                        decoration: InputDecoration(
-                          labelText: 'First name',
-                          labelStyle:
-                              const TextStyle(color: Colors.grey, fontSize: 14),
-                          floatingLabelStyle: const TextStyle(
-                              color: Colors.white, fontSize: 20),
-                          prefixIcon: Icon(
-                            Icons.person,
-                            color: Colors.blue[300],
-                          ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 10.0),
-                          border: const OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue[300]!)),
-                        ),
+                        labelText: "First Name",
+                        icon: Icons.person,
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: TextFormField(
-                        style: const TextStyle(color: Colors.white),
-                        cursorColor: Colors.grey,
+                      child: CustomTextFormField(
                         controller: _lastnameController,
-                        decoration: InputDecoration(
-                          labelText: 'Last name',
-                          labelStyle:
-                              const TextStyle(color: Colors.grey, fontSize: 14),
-                          floatingLabelStyle: const TextStyle(
-                              color: Colors.white, fontSize: 20),
-                          prefixIcon: Icon(
-                            Icons.person,
-                            color: Colors.blue[300],
-                          ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 10.0),
-                          border: const OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue[300]!)),
-                        ),
+                        labelText: "Last Name",
+                        icon: Icons.person,
                       ),
                     ),
                   ],
@@ -98,53 +67,19 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 10),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
-                child: TextFormField(
-                  style: const TextStyle(color: Colors.white),
-                  cursorColor: Colors.grey,
+                child: CustomTextFormField(
                   controller: _usermailController,
-                  decoration: InputDecoration(
-                    labelText: 'Mail',
-                    labelStyle:
-                        const TextStyle(color: Colors.grey, fontSize: 14),
-                    floatingLabelStyle:
-                        const TextStyle(color: Colors.white, fontSize: 20),
-                    prefixIcon: Icon(
-                      Icons.email,
-                      color: Colors.blue[300],
-                    ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 10.0),
-                    border: const OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue[300]!)),
-                  ),
+                  labelText: "Mail",
+                  icon: Icons.mail,
                 ),
               ),
               const SizedBox(height: 10.0),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
-                child: TextFormField(
-                  style: const TextStyle(color: Colors.white),
-                  cursorColor: Colors.grey,
+                child: CustomTextFormField(
                   controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    labelStyle:
-                        const TextStyle(color: Colors.grey, fontSize: 14),
-                    floatingLabelStyle:
-                        const TextStyle(color: Colors.white, fontSize: 20),
-                    prefixIcon: Icon(
-                      Icons.lock,
-                      color: Colors.blue[300],
-                    ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 10.0),
-                    border: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue[300]!)),
-                  ),
+                  labelText: "Password",
+                  icon: Icons.lock,
                 ),
               ),
               const SizedBox(height: 30.0),
