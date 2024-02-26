@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:space_voyage/pages/spaceGalleryPage/model.dart';
+import 'package:space_voyage/services/auth_service.dart';
 
 class ImageDetails extends StatefulWidget {
   final NasaImage image;
@@ -15,6 +17,7 @@ class ImageDetails extends StatefulWidget {
 
 class _ImageDetailsState extends State<ImageDetails> {
   late String _downloadStatus = "idle";
+  final User? user = AuthService().currentUser;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -68,13 +71,19 @@ class _ImageDetailsState extends State<ImageDetails> {
                   ),
                 ),
               ),
-              const Positioned(
+              Positioned(
                 right: 10.0,
                 bottom: 20.0,
-                child: Icon(
-                  size: 40,
-                  Icons.star_outline_rounded,
-                  color: Colors.white,
+                child: GestureDetector(
+                  onTap: () => setFavoriteImage(widget.image),
+                  child: Icon(
+                    size: 40,
+                    isFavorite(widget.image)
+                        ? Icons.star_outlined
+                        : Icons.star_outline_rounded,
+                    color:
+                        isFavorite(widget.image) ? Colors.yellow : Colors.white,
+                  ),
                 ),
               ),
               if (_downloadStatus == 'downloading')
@@ -206,4 +215,20 @@ class _ImageDetailsState extends State<ImageDetails> {
       );
     }
   }
+
+  void setFavoriteImage(NasaImage image) {
+    if (isFavorite(image)) {
+      removeFavoriteImage(image);
+    } else {
+      addFavorite(image);
+    }
+  }
+
+  bool isFavorite(NasaImage image) {
+    return true;
+  }
+
+  void removeFavoriteImage(NasaImage image) {}
+
+  void addFavorite(NasaImage image) {}
 }

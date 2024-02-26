@@ -54,13 +54,15 @@ class _SignUpPageState extends State<SignUpPage> {
             borderRadius: BorderRadius.all(Radius.circular(5))),
         backgroundColor: Colors.blue,
       ),
-      onPressed: () {
+      onPressed: () async {
         final email = _usermailController.text;
         final password = _passwordController.text;
         final firstname = _firstnameController.text;
         final lastname = _lastnameController.text;
         final name = "$firstname $lastname";
-        AuthService().signUp(name: name, email: email, password: password);
+        final isSignUp = await AuthService()
+            .signUp(name: name, email: email, password: password);
+        if (isSignUp != null) Navigator.pop(context);
       },
       child: const Text(
         'Sign Up',

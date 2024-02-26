@@ -48,9 +48,7 @@ class _HomePageState extends State<HomePage> {
     return Expanded(
       //? widgetların üst üste gelmesini sağlar (css absolute ile aynı işlev)
       child: Stack(children: [
-        //? dünya görselini ekranın sol tarafına doğru yerleştiriyorum
         earthImage(),
-        //? kullanıcı girişi yapıldıysa favoriler ve kullanıcı adını gösteren içerik ,! login butonu
         loginInfo(context, snapshot).animate().fade(duration: 500.microseconds)
       ]),
     );
@@ -58,13 +56,14 @@ class _HomePageState extends State<HomePage> {
 
   Positioned loginInfo(BuildContext context, snapshot) {
     return Positioned(
-      right: 10,
-      bottom: 70,
+      right: 0,
+      bottom: 10,
       child: !snapshot.hasData
           // eğer giriş yapılmadıysa
           ? loginButton(context)
           // eğer giriş yapıldıysa
           : Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 userNameText(),
                 const SizedBox(height: 20),
@@ -85,9 +84,13 @@ class _HomePageState extends State<HomePage> {
                 )
               : Text(
                   snapshot.data!,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
+                  softWrap: true,
+                  style: GoogleFonts.exo2(
+                    textStyle: const TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
     );
