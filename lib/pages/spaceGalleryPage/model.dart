@@ -27,4 +27,16 @@ class NasaImage {
       url: json["url"],
     );
   }
+
+  // NasaImage nesnesini bir Map'e dönüştüren toJson metodu
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'hdurl': hdurl,
+      'url': url,
+      'date': date,
+      'explanation': explanation,
+      // Diğer özellikler...
+    };
+  }
 }

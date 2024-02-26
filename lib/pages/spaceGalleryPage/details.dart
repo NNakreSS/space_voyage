@@ -4,13 +4,16 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:space_voyage/pages/SignPage/sign_in.dart';
 import 'package:space_voyage/pages/spaceGalleryPage/model.dart';
 import 'package:space_voyage/services/auth_service.dart';
+import 'package:space_voyage/services/firestore_service.dart';
 
 class ImageDetails extends StatefulWidget {
   final NasaImage image;
 
   const ImageDetails({Key? key, required this.image}) : super(key: key);
+
   @override
   State<ImageDetails> createState() => _ImageDetailsState();
 }
@@ -18,6 +21,14 @@ class ImageDetails extends StatefulWidget {
 class _ImageDetailsState extends State<ImageDetails> {
   late String _downloadStatus = "idle";
   final User? user = AuthService().currentUser;
+  late bool isFavorite;
+
+  @override
+  void initState() {
+    isFavorite = false;
+    _isFavorite(widget.image);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -76,14 +87,17 @@ class _ImageDetailsState extends State<ImageDetails> {
                 bottom: 20.0,
                 child: GestureDetector(
                   onTap: () => setFavoriteImage(widget.image),
-                  child: Icon(
-                    size: 40,
-                    isFavorite(widget.image)
-                        ? Icons.star_outlined
-                        : Icons.star_outline_rounded,
-                    color:
-                        isFavorite(widget.image) ? Colors.yellow : Colors.white,
-                  ),
+                  child: isFavorite
+                      ? const Icon(
+                          size: 40,
+                          Icons.favorite,
+                          color: Colors.red,
+                        )
+                      : const Icon(
+                          size: 40,
+                          Icons.favorite_border,
+                          color: Colors.white,
+                        ),
                 ),
               ),
               if (_downloadStatus == 'downloading')
@@ -217,18 +231,36 @@ class _ImageDetailsState extends State<ImageDetails> {
   }
 
   void setFavoriteImage(NasaImage image) {
-    if (isFavorite(image)) {
-      removeFavoriteImage(image);
+    if (user != null) {
+      if (isFavorite) {
+        FireStoreService().removeFavorite(user!.uid, image);
+      } else {
+        FireStoreService().addFavorite(user!.uid, image);
+      }
+      setState(() {
+        isFavorite = !isFavorite;
+      });
     } else {
-      addFavorite(image);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SignInPage(),
+        ),
+      );
     }
   }
 
-  bool isFavorite(NasaImage image) {
-    return true;
+  Future<bool> _isFavorite(NasaImage image) async {
+    if (user != null) {
+      final List<NasaImage> favoriteImages =
+          await FireStoreService().getFavorites(user!.uid);
+      final isFav = favoriteImages.any((item) => item.url == image.url);
+      setState(() {
+        isFavorite = isFav;
+      });
+      return isFav;
+    } else {
+      return false;
+    }
   }
-
-  void removeFavoriteImage(NasaImage image) {}
-
-  void addFavorite(NasaImage image) {}
 }

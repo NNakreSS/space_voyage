@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // dependency packagets
@@ -12,6 +13,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:space_voyage/pages/spaceGalleryPage/details.dart';
 // models
 import 'package:space_voyage/pages/spaceGalleryPage/model.dart';
+import 'package:space_voyage/services/auth_service.dart';
 
 class SpaceImages extends StatefulWidget {
   const SpaceImages({Key? key}) : super(key: key);
@@ -21,10 +23,13 @@ class SpaceImages extends StatefulWidget {
 }
 
 class _SpaceImages extends State<SpaceImages> {
+  final User? user = AuthService().currentUser;
   late List<NasaImage> _images;
   bool _isLoading = false;
   String _errorMessage = "";
+
   bool _useBackUp = false;
+
   late ScrollController _scrollController;
 
   @override
