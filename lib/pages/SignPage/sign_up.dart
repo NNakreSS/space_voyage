@@ -35,81 +35,100 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                margin: const EdgeInsets.all(30),
-                child: const Text(
-                  "Sign Up",
-                  style: TextStyle(fontSize: 40, color: Colors.white),
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      child: CustomTextFormField(
-                        controller: _firstnameController,
-                        labelText: "First Name",
-                        icon: Icons.person,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: CustomTextFormField(
-                        controller: _lastnameController,
-                        labelText: "Last Name",
-                        icon: Icons.person,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              header(),
+              nameFields(context),
               const SizedBox(height: 10),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: CustomTextFormField(
-                  controller: _usermailController,
-                  labelText: "Mail",
-                  icon: Icons.mail,
-                ),
-              ),
+              mailField(context),
               const SizedBox(height: 10.0),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: CustomTextFormField(
-                  controller: _passwordController,
-                  labelText: "Password",
-                  icon: Icons.lock,
-                ),
-              ),
+              passwordField(context),
               const SizedBox(height: 30.0),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
-                  backgroundColor: Colors.blue,
-                ),
-                onPressed: () {
-                  final email = _usermailController.text;
-                  final password = _passwordController.text;
-                  final firstname = _firstnameController.text;
-                  final lastname = _lastnameController.text;
-                  final name = "$firstname $lastname";
-                  AuthService()
-                      .signUp(name: name, email: email, password: password);
-                },
-                child: const Text(
-                  'Sign Up',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ),
+              signUpButton(),
             ],
           ),
         ),
       );
+
+  ElevatedButton signUpButton() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5))),
+        backgroundColor: Colors.blue,
+      ),
+      onPressed: () {
+        final email = _usermailController.text;
+        final password = _passwordController.text;
+        final firstname = _firstnameController.text;
+        final lastname = _lastnameController.text;
+        final name = "$firstname $lastname";
+        AuthService().signUp(name: name, email: email, password: password);
+      },
+      child: const Text(
+        'Sign Up',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
+    );
+  }
+
+  SizedBox passwordField(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: CustomTextFormField(
+        controller: _passwordController,
+        labelText: "Password",
+        icon: Icons.lock,
+      ),
+    );
+  }
+
+  SizedBox mailField(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: CustomTextFormField(
+        controller: _usermailController,
+        labelText: "Mail",
+        icon: Icons.mail,
+      ),
+    );
+  }
+
+  SizedBox nameFields(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+            child: CustomTextFormField(
+              controller: _firstnameController,
+              labelText: "First Name",
+              icon: Icons.person,
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: CustomTextFormField(
+              controller: _lastnameController,
+              labelText: "Last Name",
+              icon: Icons.person,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container header() {
+    return Container(
+      margin: const EdgeInsets.all(30),
+      child: const Text(
+        "Sign Up",
+        style: TextStyle(fontSize: 40, color: Colors.white),
+      ),
+    );
+  }
 }
