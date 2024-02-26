@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.only(right: 16.0),
                 child: Icon(
-                  Icons.info,
+                  Icons.person_pin,
                   color: Colors.blue[100]!,
                 ),
               )
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
       onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SignInPage(),
+            builder: (context) => const SignInPage(),
           )),
       child: const Text(
         "Sign In",
