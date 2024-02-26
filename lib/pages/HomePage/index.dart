@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:space_voyage/pages/SignPage/Sign_in.dart';
-import 'package:space_voyage/services/auth_service.dart';
 
 class Home extends StatefulWidget {
-  final bool isLogin;
-  final AuthService? authService;
-
-  const Home({Key? key, required this.isLogin, this.authService})
-      : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -57,7 +52,7 @@ class _HomeState extends State<Home> {
     return Positioned(
         right: 10,
         bottom: 70,
-        child: !widget.isLogin // eğer giriş yapılmadıysa
+        child: true // eğer giriş yapılmadıysa
             ? loginButton(context)
             : userNameText());
   }

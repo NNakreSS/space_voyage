@@ -34,8 +34,7 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder(
         stream: _authService.user,
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          final isLogin = snapshot.hasData ? true : false;
-          return AppHomeScreen(isLogin: isLogin, authService: _authService);
+          return const AppHomeScreen();
         },
       ),
     );
@@ -45,13 +44,8 @@ class MyApp extends StatelessWidget {
 /* Ana sayfayı statefulwidget olarak tanımladığımız için,
 değişen sayfa indexine göre body içerisindeki widget yani sayflarımız arasında geçiş sağlanacak*/
 class AppHomeScreen extends StatefulWidget {
-  final bool isLogin;
-  final AuthService authService;
-
   const AppHomeScreen({
     Key? key,
-    required this.isLogin,
-    required this.authService,
   }) : super(key: key);
 
   @override
@@ -68,7 +62,7 @@ class _AppHomeScreen extends State<AppHomeScreen> {
   void initState() {
     super.initState();
     _pageList = [
-      Home(isLogin: widget.isLogin, authService: widget.authService),
+      const Home(),
       const SpaceImages(),
       const Planets(),
       const TimeLine(),
