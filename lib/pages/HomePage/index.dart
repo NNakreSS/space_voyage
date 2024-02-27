@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   Drawer drawerWidget(BuildContext context, snapshot) {
     return Drawer(
       shape: const BorderDirectional(
-          end: BorderSide(color: Colors.white, width: 2)),
+          end: BorderSide(color: Colors.grey, width: 1)),
       backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
       width: MediaQuery.of(context).size.width * 0.6,
       child: ListView(
@@ -75,10 +75,22 @@ class _HomePageState extends State<HomePage> {
   Widget appInfoDrawerButton() => CustomElevatedButton(
         backgroundColor: Colors.black,
         onPressed: () => (),
-        child: Icon(
-          Icons.info_outline,
-          color: Colors.white,
-          size: 30,
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.info_outline,
+              color: Colors.white,
+              size: 25,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              "App Info",
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
         ),
       );
 
@@ -86,12 +98,23 @@ class _HomePageState extends State<HomePage> {
     final bool disabled = hasData ? false : true;
     return CustomElevatedButton(
       onPressed: () => (),
-      child: Icon(
-        Icons.favorite,
-        color: disabled ? Color.fromARGB(80, 244, 67, 30) : Colors.red,
-        size: 30,
-      ),
       disabled: disabled,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.favorite,
+            color:
+                disabled ? const Color.fromARGB(80, 244, 67, 30) : Colors.red,
+            size: 30,
+          ),
+          const SizedBox(width: 10),
+          const Text(
+            "Favorites",
+            style: TextStyle(color: Colors.black, fontSize: 16),
+          )
+        ],
+      ),
     );
   }
 
@@ -99,12 +122,23 @@ class _HomePageState extends State<HomePage> {
     final bool disabled = hasData ? false : true;
     return CustomElevatedButton(
       onPressed: () => (),
-      child: Icon(
-        Icons.person,
-        color: disabled ? const Color.fromARGB(80, 33, 149, 243) : Colors.blue,
-        size: 30,
-      ),
       disabled: disabled,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.person_pin,
+            color:
+                disabled ? const Color.fromARGB(80, 33, 149, 243) : Colors.blue,
+            size: 30,
+          ),
+          const SizedBox(width: 10),
+          const Text(
+            "Profile",
+            style: TextStyle(color: Colors.black, fontSize: 16),
+          )
+        ],
+      ),
     );
   }
 
