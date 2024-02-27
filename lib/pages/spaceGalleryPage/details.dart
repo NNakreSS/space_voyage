@@ -20,7 +20,6 @@ class ImageDetails extends StatefulWidget {
 
 class _ImageDetailsState extends State<ImageDetails> {
   late String _downloadStatus = "idle";
-  final User? user = AuthService().currentUser;
   late bool isFavorite;
 
   @override
@@ -231,11 +230,12 @@ class _ImageDetailsState extends State<ImageDetails> {
   }
 
   void setFavoriteImage(NasaImage image) {
+    final User? user = AuthService().currentUser;
     if (user != null) {
       if (isFavorite) {
-        FireStoreService().removeFavorite(user!.uid, image);
+        FireStoreService().removeFavorite(user.uid, image);
       } else {
-        FireStoreService().addFavorite(user!.uid, image);
+        FireStoreService().addFavorite(user.uid, image);
       }
       setState(() {
         isFavorite = !isFavorite;
@@ -251,9 +251,10 @@ class _ImageDetailsState extends State<ImageDetails> {
   }
 
   Future<bool> _isFavorite(NasaImage image) async {
+    final User? user = AuthService().currentUser;
     if (user != null) {
       final List<NasaImage> favoriteImages =
-          await FireStoreService().getFavorites(user!.uid);
+          await FireStoreService().getFavorites(user.uid);
       final isFav = favoriteImages.any((item) => item.url == image.url);
       setState(() {
         isFavorite = isFav;
