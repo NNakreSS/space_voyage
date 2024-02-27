@@ -82,6 +82,7 @@ class _SignUpPageState extends State<SignUpPage> {
         controller: _passwordController,
         labelText: "Password",
         icon: Icons.lock,
+        password: true,
       ),
     );
   }

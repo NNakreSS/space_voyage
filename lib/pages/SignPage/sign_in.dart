@@ -117,6 +117,7 @@ class _SignInPageState extends State<SignInPage> {
         controller: _passwordController,
         labelText: "Password",
         icon: Icons.lock,
+        password: true,
       ),
     );
   }

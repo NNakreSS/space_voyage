@@ -4,9 +4,11 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final String labelText;
   final IconData icon;
+  final bool? password;
 
   const CustomTextFormField(
       {Key? key,
+      this.password,
       required this.controller,
       required this.labelText,
       required this.icon})
@@ -17,6 +19,7 @@ class CustomTextFormField extends StatelessWidget {
         style: const TextStyle(color: Colors.white),
         cursorColor: Colors.grey,
         controller: controller,
+        obscureText: password ?? false,
         decoration: InputDecoration(
           labelText: labelText,
           labelStyle: const TextStyle(color: Colors.grey, fontSize: 14),
