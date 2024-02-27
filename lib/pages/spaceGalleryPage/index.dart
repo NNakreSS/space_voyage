@@ -45,7 +45,7 @@ class _SpaceImages extends State<SpaceImages> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
               _scrollController.position.maxScrollExtent &&
-          !widget.isFavoriteImages!) {
+          widget.isFavoriteImages == null) {
         _fetchImages();
       }
     });
@@ -63,7 +63,7 @@ class _SpaceImages extends State<SpaceImages> {
       _isLoading = true;
     });
 
-    if (!widget.isFavoriteImages!) {
+    if (widget.isFavoriteImages == null) {
       await dotenv.load(fileName: ".env");
       final String apiKey = dotenv.env['API_KEY'] ?? "DEMO_KEY";
 
@@ -130,7 +130,7 @@ class _SpaceImages extends State<SpaceImages> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: widget.isFavoriteImages!
+        appBar: widget.isFavoriteImages != null
             ? AppBar(
                 backgroundColor: Colors.transparent,
                 title: const Text(
@@ -153,7 +153,7 @@ class _SpaceImages extends State<SpaceImages> {
         Expanded(
           child: images(),
         ),
-        if (_isLoading && !_useBackUp && !widget.isFavoriteImages!)
+        if (_isLoading && !_useBackUp && widget.isFavoriteImages == null)
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: SpinKitDualRing(color: Colors.blue[100]!),

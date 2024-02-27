@@ -7,6 +7,7 @@ import 'package:space_voyage/widgets/elevated_button.dart';
 import 'package:space_voyage/pages/SignPage/Sign_in.dart';
 import 'package:space_voyage/pages/userProfile/index.dart';
 import 'package:space_voyage/services/auth_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -75,7 +76,69 @@ class _HomePageState extends State<HomePage> {
 
   Widget appInfoDrawerButton() => CustomElevatedButton(
         backgroundColor: Colors.black,
-        onPressed: () => (),
+        onPressed: () => showModalBottomSheet(
+          backgroundColor: Color.fromRGBO(18, 18, 18, 1),
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                    'Developer Information',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  const ListTile(
+                    iconColor: Colors.white,
+                    textColor: Colors.white,
+                    leading: Icon(Icons.person),
+                    title: Text('Name: Serkan Burak Atmaca'),
+                  ),
+                  const ListTile(
+                    iconColor: Colors.white,
+                    textColor: Colors.white,
+                    leading: Icon(Icons.email),
+                    title: Text('Email: nakresdevelopment@gmail.com'),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      CustomElevatedButton(
+                        backgroundColor: Colors.blue,
+                        onPressed: () async => await launchUrl(
+                            Uri.parse("https://github.com/NNakreSS")),
+                        child: const Text(
+                          "GITHUB",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w800),
+                        ),
+                      ),
+                      CustomElevatedButton(
+                        backgroundColor: Colors.blue,
+                        onPressed: () async =>
+                            await launchUrl(Uri.parse("https://nakres.dev")),
+                        child: const Text(
+                          "WEB SITE",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w800),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            );
+          },
+        ),
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
