@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:space_voyage/components/elevated_button.dart';
+import 'package:space_voyage/pages/spaceGalleryPage/index.dart';
+import 'package:space_voyage/widgets/elevated_button.dart';
 import 'package:space_voyage/pages/SignPage/Sign_in.dart';
+import 'package:space_voyage/pages/userProfile/index.dart';
 import 'package:space_voyage/services/auth_service.dart';
 
 class HomePage extends StatefulWidget {
@@ -61,8 +62,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const Divider(color: Colors.white70, thickness: 1),
+          userInfoDrawerButton(snapshot.hasData),
           favoriteDrawerButton(snapshot.hasData),
-          userDrawerButton(snapshot.hasData),
           const Divider(color: Colors.white70, thickness: 1),
           signButton(context, snapshot),
           const Divider(color: Colors.white70, thickness: 1),
@@ -94,10 +95,16 @@ class _HomePageState extends State<HomePage> {
         ),
       );
 
-  Widget userDrawerButton(hasData) {
+  Widget favoriteDrawerButton(hasData) {
     final bool disabled = hasData ? false : true;
     return CustomElevatedButton(
-      onPressed: () => (),
+      onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SpaceImages(
+              isFavoriteImages: true,
+            ),
+          )),
       disabled: disabled,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -118,10 +125,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget favoriteDrawerButton(hasData) {
+  Widget userInfoDrawerButton(hasData) {
     final bool disabled = hasData ? false : true;
     return CustomElevatedButton(
-      onPressed: () => (),
+      onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const UserProfile(),
+          )),
       disabled: disabled,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -151,30 +162,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget signButton(BuildContext context, snapshot) =>
-      !snapshot.hasData ? loginButton(context) : logOutButton(context);
-
-  Widget userNameText() {
-    return FutureBuilder<String?>(
-      future: AuthService().getUserName(),
-      builder: (context, snapshot) =>
-          (snapshot.connectionState == ConnectionState.waiting)
-              ? const SpinKitWave(
-                  size: 20,
-                  color: Colors.white,
-                )
-              : Text(
-                  snapshot.data!,
-                  softWrap: true,
-                  style: GoogleFonts.exo2(
-                    textStyle: const TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-    );
-  }
+      !snapshot.hasData ? loginButton(context) : logoutButton(context);
 
   Widget loginButton(BuildContext context) => CustomElevatedButton(
         minimumSize: Size(MediaQuery.of(context).size.width, 0),
@@ -191,12 +179,41 @@ class _HomePageState extends State<HomePage> {
         ),
       );
 
-  Widget logOutButton(BuildContext context) => CustomElevatedButton(
+  Widget logoutButton(BuildContext context) => CustomElevatedButton(
         backgroundColor: Colors.red,
         minimumSize: Size(MediaQuery.of(context).size.width, 0),
-        onPressed: () => AuthService().signOut(),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                    title: const Text("Logout"),
+                    content: const Text(
+                      "Are you sure you want to logout?",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          AuthService().signOut();
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          "Logout",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ],
+                  ));
+        },
         child: const Text(
-          "Log Out",
+          "Logout",
           style: TextStyle(
               color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
         ),

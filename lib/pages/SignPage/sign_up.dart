@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:space_voyage/components/text_field.dart';
+import 'package:space_voyage/widgets/text_field.dart';
 import 'package:space_voyage/services/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {

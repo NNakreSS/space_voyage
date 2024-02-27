@@ -93,20 +93,24 @@ class AuthService {
     }
   }
 
-  // AuthService sınıfında
-  Future<String?> getUserName() async {
+  Future<Map<String, dynamic>?> getUserInfo() async {
+    final List<String> secretInfos = ["password", "favorites", "admin"];
     try {
       User? user = _auth.currentUser;
-      if (user == null) return "User Not Found";
+      if (user == null) return {"error": "User Not Found"};
 
       DocumentSnapshot userDoc = await userCollection.doc(user.uid).get();
-      print(user.uid);
       final Map<String, dynamic> userData =
           userDoc.data() as Map<String, dynamic>;
-      return userData['name'] ?? "No name";
+
+      for (var infokey in secretInfos) {
+        userData.remove(infokey);
+      }
+
+      return userData;
     } catch (e) {
       print(e.toString());
-      return "No name";
+      return null; // Bir hata oluştuğunda null döndür
     }
   }
 }
