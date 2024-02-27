@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:space_voyage/components/elevated_button.dart';
 import 'package:space_voyage/pages/SignPage/Sign_in.dart';
 import 'package:space_voyage/services/auth_service.dart';
 
@@ -18,19 +19,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) => StreamBuilder(
       stream: AuthService().authStateChanges,
-      builder: (context2, snapshot) {
+      builder: (_, snapshot) {
         return Scaffold(
+          drawer: drawerWidget(context, snapshot),
           appBar: AppBar(
+            iconTheme: const IconThemeData(color: Colors.white),
             backgroundColor: Colors.transparent,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: Icon(
-                  Icons.person_pin,
-                  color: Colors.blue[100]!,
-                ),
-              )
-            ],
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -44,33 +38,94 @@ class _HomePageState extends State<HomePage> {
         );
       });
 
+  Drawer drawerWidget(BuildContext context, snapshot) {
+    return Drawer(
+      shape: const BorderDirectional(
+          end: BorderSide(color: Colors.white, width: 2)),
+      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
+      width: MediaQuery.of(context).size.width * 0.6,
+      child: ListView(
+        padding: const EdgeInsets.all(20),
+        children: <Widget>[
+          const SizedBox(
+            height: 60,
+            child: Center(
+              child: Text(
+                "Space Voyage",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+          ),
+          const Divider(color: Colors.white70, thickness: 1),
+          favoriteDrawerButton(snapshot.hasData),
+          userDrawerButton(snapshot.hasData),
+          const Divider(color: Colors.white70, thickness: 1),
+          loginInfo(context, snapshot),
+          const Divider(color: Colors.white70, thickness: 1),
+          appInfoDrawerButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget appInfoDrawerButton() => CustomElevatedButton(
+        backgroundColor: Colors.black,
+        onPressed: () => (),
+        child: Icon(
+          Icons.info_outline,
+          color: Colors.white,
+          size: 30,
+        ),
+      );
+
+  Widget userDrawerButton(hasData) {
+    final bool disabled = hasData ? false : true;
+    return CustomElevatedButton(
+      onPressed: () => (),
+      child: Icon(
+        Icons.favorite,
+        color: disabled ? Color.fromARGB(80, 244, 67, 30) : Colors.red,
+        size: 30,
+      ),
+      disabled: disabled,
+    );
+  }
+
+  Widget favoriteDrawerButton(hasData) {
+    final bool disabled = hasData ? false : true;
+    return CustomElevatedButton(
+      onPressed: () => (),
+      child: Icon(
+        Icons.person,
+        color: disabled ? const Color.fromARGB(80, 33, 149, 243) : Colors.blue,
+        size: 30,
+      ),
+      disabled: disabled,
+    );
+  }
+
   Expanded main(BuildContext context, snapshot) {
     return Expanded(
       //? widgetların üst üste gelmesini sağlar (css absolute ile aynı işlev)
       child: Stack(children: [
         earthImage(),
-        loginInfo(context, snapshot).animate().fade(duration: 500.microseconds)
       ]),
     );
   }
 
   Positioned loginInfo(BuildContext context, snapshot) {
     return Positioned(
-      right: 0,
-      bottom: 10,
-      child: !snapshot.hasData
-          // eğer giriş yapılmadıysa
-          ? loginButton(context)
-          // eğer giriş yapıldıysa
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                userNameText(),
-                const SizedBox(height: 20),
-                logOutButton(context)
-              ],
-            ),
-    );
+        right: 0,
+        bottom: 10,
+        child: !snapshot.hasData
+            // eğer giriş yapılmadıysa
+            ? loginButton(context)
+            // eğer giriş yapıldıysa
+            : logOutButton(context));
   }
 
   Widget userNameText() {
@@ -87,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                   softWrap: true,
                   style: GoogleFonts.exo2(
                     textStyle: const TextStyle(
-                      fontSize: 24.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -96,42 +151,31 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  ElevatedButton loginButton(BuildContext context) {
-    return ElevatedButton(
-      // kullanıcı giriş ve hesap oluşturma butonu
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        backgroundColor: Colors.white10,
-      ),
-      onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const SignInPage(),
-          )),
-      child: const Text(
-        "Sign In",
-        style: TextStyle(
-            color: Colors.blue, fontSize: 24, fontWeight: FontWeight.w600),
-      ),
-    );
-  }
+  Widget loginButton(BuildContext context) => CustomElevatedButton(
+        minimumSize: Size(MediaQuery.of(context).size.width, 0),
+        backgroundColor: Colors.blue,
+        onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SignInPage(),
+            )),
+        child: const Text(
+          "Login",
+          style: TextStyle(
+              color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+        ),
+      );
 
-  logOutButton(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        backgroundColor: Colors.white10,
-      ),
-      onPressed: () => AuthService().signOut(),
-      child: Text(
-        "Log Out",
-        style: TextStyle(
-            color: Colors.red[300]!, fontSize: 24, fontWeight: FontWeight.w600),
-      ),
-    );
-  }
+  Widget logOutButton(BuildContext context) => CustomElevatedButton(
+        backgroundColor: Colors.red,
+        minimumSize: Size(MediaQuery.of(context).size.width, 0),
+        onPressed: () => AuthService().signOut(),
+        child: const Text(
+          "Log Out",
+          style: TextStyle(
+              color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+        ),
+      );
 
   Transform earthImage() {
     return Transform.translate(
