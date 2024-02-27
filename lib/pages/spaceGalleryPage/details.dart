@@ -31,6 +31,7 @@ class _ImageDetailsState extends State<ImageDetails> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
         appBar: AppBar(
           title: Tooltip(
               message: widget.image.title,
@@ -38,124 +39,129 @@ class _ImageDetailsState extends State<ImageDetails> {
                 widget.image.title!,
                 style: const TextStyle(color: Colors.white),
               )),
-          backgroundColor: Colors.black,
+          backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
           iconTheme: const IconThemeData(
             color: Colors.white,
           ),
         ),
         body: ListView(
           children: [
-            Stack(children: [
-              SizedBox(
-                width: double.maxFinite,
-                height: 300,
-                child: CachedNetworkImage(
-                  imageUrl: widget.image.hdurl ?? widget.image.url!,
-                  imageBuilder: (context, imageProvider) => Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  placeholder: (context, url) =>
-                      const SpinKitCubeGrid(color: Colors.white),
-                  errorWidget: (context, url, error) => const Icon(
-                    Icons.error,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 10.0,
-                bottom: 70.0,
-                child: GestureDetector(
-                  onTap: () => downloadImage(
-                      widget.image.hdurl ?? widget.image.url,
-                      widget.image.title!),
-                  child: const Icon(
-                    size: 40,
-                    Icons.download,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 10.0,
-                bottom: 20.0,
-                child: GestureDetector(
-                  onTap: () => setFavoriteImage(widget.image),
-                  child: isFavorite
-                      ? const Icon(
-                          size: 40,
-                          Icons.favorite,
-                          color: Colors.red,
-                        )
-                      : const Icon(
-                          size: 40,
-                          Icons.favorite_border,
-                          color: Colors.white,
+            SizedBox(
+              height: 300,
+              child: Stack(alignment: Alignment.center, children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.image.hdurl ?? widget.image.url!,
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                ),
-              ),
-              if (_downloadStatus == 'downloading')
-                Positioned(
-                  left: 10,
-                  bottom: 10,
-                  child: Container(
-                    height: 50,
-                    width: 250,
-                    decoration: const BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius:
-                            BorderRadius.all(Radius.elliptical(10, 10))),
-                    child: const Center(
-                      child: Text(
-                        "Downloading...",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                      ),
+                      placeholder: (context, url) =>
+                          const SpinKitCubeGrid(color: Colors.white),
+                      errorWidget: (context, url, error) => const Icon(
+                        Icons.error,
+                        color: Colors.red,
                       ),
                     ),
-                  ).animate().slide(
-                      begin: const Offset(-1, 0),
-                      duration: const Duration(milliseconds: 500)),
+                  ),
                 ),
-              if (_downloadStatus == 'success' || _downloadStatus == 'error')
                 Positioned(
+                  right: 20.0,
+                  bottom: 70.0,
+                  child: GestureDetector(
+                    onTap: () => downloadImage(
+                        widget.image.hdurl ?? widget.image.url,
+                        widget.image.title!),
+                    child: const Icon(
+                      size: 30,
+                      Icons.download,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 20.0,
+                  bottom: 20.0,
+                  child: GestureDetector(
+                    onTap: () => setFavoriteImage(widget.image),
+                    child: isFavorite
+                        ? const Icon(
+                            size: 30,
+                            Icons.favorite,
+                            color: Colors.red,
+                          )
+                        : const Icon(
+                            size: 30,
+                            Icons.favorite_border,
+                            color: Colors.white,
+                          ),
+                  ),
+                ),
+                if (_downloadStatus == 'downloading')
+                  Positioned(
                     left: 10,
                     bottom: 10,
                     child: Container(
                       height: 50,
                       width: 250,
-                      decoration: BoxDecoration(
-                          color: _downloadStatus == 'success'
-                              ? Colors.green
-                              : Colors.red,
-                          borderRadius: const BorderRadius.all(
-                              Radius.elliptical(10, 10))),
-                      child: Center(
+                      decoration: const BoxDecoration(
+                          color: Colors.amber,
+                          borderRadius:
+                              BorderRadius.all(Radius.elliptical(10, 10))),
+                      child: const Center(
                         child: Text(
-                          _downloadStatus == 'success'
-                              ? "Download Success"
-                              : "Download Failed",
-                          style: const TextStyle(
+                          "Downloading...",
+                          style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                    )
-                        .animate()
-                        .fadeIn(duration: const Duration(seconds: 1))
-                        .fadeOut(
-                          duration: const Duration(seconds: 4),
-                        )),
-            ]),
+                    ).animate().slide(
+                        begin: const Offset(-1, 0),
+                        duration: const Duration(milliseconds: 500)),
+                  ),
+                if (_downloadStatus == 'success' || _downloadStatus == 'error')
+                  Positioned(
+                      left: 10,
+                      bottom: 10,
+                      child: Container(
+                        height: 50,
+                        width: 250,
+                        decoration: BoxDecoration(
+                            color: _downloadStatus == 'success'
+                                ? Colors.green
+                                : Colors.red,
+                            borderRadius: const BorderRadius.all(
+                                Radius.elliptical(10, 10))),
+                        child: Center(
+                          child: Text(
+                            _downloadStatus == 'success'
+                                ? "Download Success"
+                                : "Download Failed",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      )
+                          .animate()
+                          .fadeIn(duration: const Duration(seconds: 1))
+                          .fadeOut(
+                            duration: const Duration(seconds: 4),
+                          )),
+              ]),
+            ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(10.0),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

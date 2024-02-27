@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
           favoriteDrawerButton(snapshot.hasData),
           userDrawerButton(snapshot.hasData),
           const Divider(color: Colors.white70, thickness: 1),
-          loginInfo(context, snapshot),
+          signButton(context, snapshot),
           const Divider(color: Colors.white70, thickness: 1),
           appInfoDrawerButton(),
         ],
@@ -117,16 +117,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Positioned loginInfo(BuildContext context, snapshot) {
-    return Positioned(
-        right: 0,
-        bottom: 10,
-        child: !snapshot.hasData
-            // eğer giriş yapılmadıysa
-            ? loginButton(context)
-            // eğer giriş yapıldıysa
-            : logOutButton(context));
-  }
+  Widget signButton(BuildContext context, snapshot) =>
+      !snapshot.hasData ? loginButton(context) : logOutButton(context);
 
   Widget userNameText() {
     return FutureBuilder<String?>(
