@@ -110,7 +110,6 @@ class _HomePageState extends State<HomePage> {
 
   Expanded main(BuildContext context, snapshot) {
     return Expanded(
-      //? widgetların üst üste gelmesini sağlar (css absolute ile aynı işlev)
       child: Stack(children: [
         earthImage(),
       ]),

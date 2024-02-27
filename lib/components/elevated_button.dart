@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
-  final Function() onPressed;
-  final Widget child;
-  final Color? backgroundColor;
-  final Size? maximumSize;
-  final Size? minimumSize;
-  final bool? disabled;
-
   const CustomElevatedButton({
     Key? key,
     required this.onPressed,
@@ -17,6 +10,13 @@ class CustomElevatedButton extends StatelessWidget {
     this.minimumSize,
     this.disabled,
   }) : super(key: key);
+
+  final Function() onPressed;
+  final Widget child;
+  final Color? backgroundColor;
+  final Size? maximumSize;
+  final Size? minimumSize;
+  final bool? disabled;
 
   @override
   Widget build(BuildContext context) => ElevatedButton(
