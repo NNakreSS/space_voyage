@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:space_voyage/pages/NewsPage/index.dart';
 import 'package:space_voyage/pages/spaceGalleryPage/index.dart';
 import 'package:space_voyage/widgets/elevated_button.dart';
 import 'package:space_voyage/pages/SignPage/Sign_in.dart';
@@ -220,26 +221,24 @@ class _HomePageState extends State<HomePage> {
     return Expanded(
       child: Stack(children: [
         earthImage(),
-        Expanded(
-          child: Positioned(
-            right: 0,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 2,
-              child: Text(
-                "Follow humanity's journey into space",
-                softWrap: true,
-                style: GoogleFonts.exo2(
-                  textStyle: const TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+        Positioned(
+          right: 0,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 2,
+            child: Text(
+              "Follow humanity's journey into space",
+              softWrap: true,
+              style: GoogleFonts.exo2(
+                textStyle: const TextStyle(
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
-              ).animate().fade(duration: 500.ms).slide(
-                    begin: const Offset(1, 0),
-                    duration: 500.ms,
-                  ),
-            ),
+              ),
+            ).animate().fade(duration: 500.ms).slide(
+                  begin: const Offset(1, 0),
+                  duration: 500.ms,
+                ),
           ),
         ),
         Positioned(
@@ -248,7 +247,8 @@ class _HomePageState extends State<HomePage> {
           bottom: 0,
           child: CustomElevatedButton(
             backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
-            onPressed: () => (),
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const NewsPage())),
             child: Column(
               children: [
                 Expanded(
