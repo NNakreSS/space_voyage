@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:space_voyage/pages/HomePage/index.dart';
 import 'package:space_voyage/pages/PlanetsPage/index.dart';
 import 'package:space_voyage/pages/spaceGalleryPage/index.dart';
-import 'package:space_voyage/pages/TimeLinePage/index.dart';
+import 'package:space_voyage/pages/RocketLaunch/index.dart';
 // firebase
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -58,7 +58,7 @@ class _AppHomeScreen extends State<AppHomeScreen> {
       HomePage(),
       const SpaceImages(),
       const Planets(),
-      const TimeLine(),
+      const RocketLaunchPage(),
     ];
   }
 

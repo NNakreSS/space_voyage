@@ -116,7 +116,7 @@ class _SpaceImages extends State<SpaceImages> {
   Future<void> _fetchBackupDataImages() async {
     try {
       final String response =
-          await rootBundle.loadString('assets/backup_data.json');
+          await rootBundle.loadString('assets/data/backup_data.json');
       final data = await json.decode(response);
       final List<NasaImage> newImages = data
           .map((json) => NasaImage.fromJson(json))
@@ -223,8 +223,10 @@ class _SpaceImages extends State<SpaceImages> {
                         ),
                     placeholder: (context, url) =>
                         const SpinKitFadingGrid(color: Colors.grey),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error)),
+                    errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
+                          color: Colors.red,
+                        )),
               ),
             );
           },
