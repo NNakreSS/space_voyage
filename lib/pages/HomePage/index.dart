@@ -64,12 +64,24 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const Divider(color: Colors.white70, thickness: 1),
-          userInfoDrawerButton(snapshot.hasData),
-          favoriteDrawerButton(snapshot.hasData),
+          userInfoDrawerButton(snapshot.hasData)
+              .animate()
+              .fadeIn()
+              .slide(begin: const Offset(-1, 0), duration: 500.milliseconds),
+          favoriteDrawerButton(snapshot.hasData).animate().fadeIn().slide(
+              begin: const Offset(-1, 0),
+              duration: 300.milliseconds,
+              delay: .2.seconds),
           const Divider(color: Colors.white70, thickness: 1),
-          signButton(context, snapshot),
+          signButton(context, snapshot).animate().fadeIn().slide(
+              begin: const Offset(-1, 0),
+              duration: 300.milliseconds,
+              delay: .5.seconds),
           const Divider(color: Colors.white70, thickness: 1),
-          appInfoDrawerButton(),
+          appInfoDrawerButton().animate().fadeIn().slide(
+              begin: const Offset(-1, 0),
+              duration: 300.milliseconds,
+              delay: .8.seconds),
         ],
       ),
     );
