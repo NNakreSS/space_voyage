@@ -5,7 +5,7 @@ class RocketLaunch {
   final String date;
   final String detail;
   final String rocketStatus;
-  final double rocketCost;
+  final double? rocketCost;
   final String missionStatus;
 
   RocketLaunch({
@@ -15,7 +15,7 @@ class RocketLaunch {
     required this.date,
     required this.detail,
     required this.rocketStatus,
-    required this.rocketCost,
+    this.rocketCost,
     required this.missionStatus,
   });
 }
