@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 // dependency packagets
 import 'package:http/http.dart' as http;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -57,8 +58,16 @@ class _SpaceImages extends State<SpaceImages> {
     super.dispose();
   }
 
+  @override
+  void setState(VoidCallback func) {
+    if (mounted) {
+      super.setState(func);
+    }
+  }
+
   Future<void> _fetchImages() async {
     if (_isLoading) return;
+
     setState(() {
       _isLoading = true;
     });
@@ -78,6 +87,7 @@ class _SpaceImages extends State<SpaceImages> {
             .map((json) => NasaImage.fromJson(json))
             .where((data) => data.mediaType == "image")
             .toList();
+
         setState(() {
           _images.addAll(newImages);
           _isLoading = false;
@@ -133,9 +143,14 @@ class _SpaceImages extends State<SpaceImages> {
         appBar: widget.isFavoriteImages != null
             ? AppBar(
                 backgroundColor: Colors.transparent,
-                title: const Text(
+                title: Text(
                   "Favorites",
-                  style: TextStyle(color: Colors.white),
+                  style: GoogleFonts.exo(
+                      textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 26,
+                    fontWeight: FontWeight.w600,
+                  )),
                 ),
                 iconTheme: const IconThemeData(color: Colors.white),
               )

@@ -258,18 +258,20 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       const Icon(
                         Icons.newspaper_outlined,
-                        color: Colors.blue,
+                        color: Colors.grey,
                       ),
                       Text(
                         "Space News",
                         style: GoogleFonts.exo(
-                          textStyle:
-                              const TextStyle(color: Colors.blue, fontSize: 20),
+                          textStyle: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
                       const Icon(
                         Icons.arrow_forward_ios_sharp,
-                        color: Colors.blue,
+                        color: Colors.grey,
                       )
                     ],
                   ),

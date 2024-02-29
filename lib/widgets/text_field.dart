@@ -5,10 +5,16 @@ class CustomTextFormField extends StatelessWidget {
   final String labelText;
   final IconData icon;
   final bool? password;
+  final bool? autoFocus;
+  final int? maxLine;
+  final TextInputType? keyboardType;
 
   const CustomTextFormField(
       {Key? key,
       this.password,
+      this.maxLine,
+      this.autoFocus,
+      this.keyboardType,
       required this.controller,
       required this.labelText,
       required this.icon})
@@ -16,6 +22,9 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TextFormField(
+        autofocus: autoFocus ?? false,
+        keyboardType: keyboardType,
+        maxLines: maxLine ?? 1,
         style: const TextStyle(color: Colors.white),
         cursorColor: Colors.grey,
         controller: controller,
@@ -29,7 +38,7 @@ class CustomTextFormField extends StatelessWidget {
             icon,
             color: Colors.blue[300],
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+          contentPadding: const EdgeInsets.all(16),
           border: const OutlineInputBorder(),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.blue[300]!)),

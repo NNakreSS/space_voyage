@@ -84,7 +84,7 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  ElevatedButton loginButton(BuildContext context) {
+  ElevatedButton loginButton(context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: const RoundedRectangleBorder(

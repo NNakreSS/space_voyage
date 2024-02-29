@@ -56,9 +56,10 @@ class PerspectiveListViewState extends State<PerspectiveListView> {
   }
 
   void _pageListener() {
-    _currentIndex = _pageController!.page!.floor();
-    _pagePercent = (_pageController!.page! - _currentIndex!).abs();
-    setState(() {});
+    setState(() {
+      _currentIndex = _pageController!.page!.floor();
+      _pagePercent = (_pageController!.page! - _currentIndex!).abs();
+    });
   }
 
   @override

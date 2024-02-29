@@ -30,6 +30,13 @@ class _ImageDetailsState extends State<ImageDetails> {
   }
 
   @override
+  void setState(VoidCallback func) {
+    if (mounted) {
+      super.setState(func);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
         appBar: AppBar(

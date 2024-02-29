@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:space_voyage/services/auth_service.dart';
 
 class UserProfile extends StatelessWidget {
@@ -9,9 +10,14 @@ class UserProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "User Profile",
-          style: TextStyle(color: Colors.white),
+          style: GoogleFonts.exo(
+              textStyle: const TextStyle(
+            color: Colors.white,
+            fontSize: 26,
+            fontWeight: FontWeight.w600,
+          )),
         ),
         backgroundColor: Colors.black,
         iconTheme: const IconThemeData(

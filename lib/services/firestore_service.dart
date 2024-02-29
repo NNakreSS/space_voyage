@@ -1,14 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:space_voyage/pages/NewsPage/model.dart';
 import 'package:space_voyage/pages/spaceGalleryPage/model.dart';
 
 class FireStoreService {
-  final CollectionReference favoritesCollection =
+  final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("users");
+
+  final CollectionReference newsCollection =
+      FirebaseFirestore.instance.collection('news');
 
   // Kullanıcının belirli bir görselin favorilere eklemesi
   Future<void> addFavorite(String userId, NasaImage imageData) async {
     try {
-      await favoritesCollection.doc(userId).set({
+      await userCollection.doc(userId).set({
         'favorites': FieldValue.arrayUnion([imageData.toJson()]),
       }, SetOptions(merge: true));
     } catch (e) {
@@ -20,8 +24,7 @@ class FireStoreService {
   // Kullanıcının favori görsellerini getirme
   Future<List<NasaImage>> getFavorites(String userId) async {
     try {
-      final DocumentSnapshot snapshot =
-          await favoritesCollection.doc(userId).get();
+      final DocumentSnapshot snapshot = await userCollection.doc(userId).get();
       if (snapshot.exists) {
         final Map<String, dynamic>? data =
             snapshot.data() as Map<String, dynamic>?;
@@ -42,7 +45,7 @@ class FireStoreService {
   // Kullanıcının belirli bir görseli favorilerden çıkarması
   Future<void> removeFavorite(String userId, NasaImage imageData) async {
     try {
-      await favoritesCollection.doc(userId).update({
+      await userCollection.doc(userId).update({
         'favorites': FieldValue.arrayRemove([imageData.toJson()]),
       });
     } catch (e) {
@@ -54,8 +57,7 @@ class FireStoreService {
   // Kullanıcının favori görsellerini getirme
   Future<List<NasaImage>> getUserFavorites(String userId) async {
     try {
-      final DocumentSnapshot snapshot =
-          await favoritesCollection.doc(userId).get();
+      final DocumentSnapshot snapshot = await userCollection.doc(userId).get();
       if (snapshot.exists) {
         final Map<String, dynamic>? data =
             snapshot.data() as Map<String, dynamic>?;
@@ -71,5 +73,41 @@ class FireStoreService {
       print("Error getting user favorites: $e");
       throw e;
     }
+  }
+
+  Future<Map?> addNewsToFirestore(Map newsItem) async {
+    try {
+      await newsCollection.add({
+        'title': newsItem["title"],
+        'explanation': newsItem["explanation"],
+        'date': newsItem["date"],
+        "timestamp": Timestamp.fromDate(DateTime.now()),
+      });
+      return {"success": true}; // Başarı durumunda true döndür
+    } catch (e) {
+      return {"success": false, "error": e}; // Hata durumunda false döndür
+    }
+  }
+
+  Future<List<News>> getNewsToFirestore(News newsItem) async {
+    final newsSnapshot = await newsCollection.get();
+    List<News> newsList = [];
+    for (var doc in newsSnapshot.docs) {
+      Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+      newsList.add(News.fromJson(data!));
+    }
+    return newsList;
+  }
+
+  Stream<List<News>> getNewsStream() {
+    return newsCollection
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return News.fromJson(data);
+      }).toList();
+    });
   }
 }
