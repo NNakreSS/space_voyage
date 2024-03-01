@@ -118,6 +118,7 @@ class _SignInPageState extends State<SignInPage> {
         labelText: "Password",
         icon: Icons.lock,
         password: true,
+        keyboardType: TextInputType.visiblePassword,
       ),
     );
   }
@@ -129,6 +130,7 @@ class _SignInPageState extends State<SignInPage> {
         controller: _usermailController,
         labelText: "Mail",
         icon: Icons.mail,
+        keyboardType: TextInputType.emailAddress,
       ),
     );
   }

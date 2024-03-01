@@ -83,6 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
         labelText: "Password",
         icon: Icons.lock,
         password: true,
+        keyboardType: TextInputType.visiblePassword,
       ),
     );
   }
@@ -92,8 +93,9 @@ class _SignUpPageState extends State<SignUpPage> {
       width: MediaQuery.of(context).size.width * 0.9,
       child: CustomTextFormField(
         controller: _usermailController,
-        labelText: "Mail",
+        labelText: "eMail",
         icon: Icons.mail,
+        keyboardType: TextInputType.emailAddress,
       ),
     );
   }
