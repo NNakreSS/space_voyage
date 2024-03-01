@@ -125,13 +125,52 @@ class _NewsPageState extends State<NewsPage> {
                   future: AuthService().isAdmin(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState != ConnectionState.waiting) {
-                      print(snapshot.data);
                       return snapshot.data!
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () => showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      backgroundColor:
+                                          const Color.fromRGBO(28, 28, 28, 1),
+                                      title: const Text(
+                                        "Delete",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      content: const Text(
+                                        "Are you sure you want to delete this news?",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text(
+                                            "Cancel",
+                                            style:
+                                                TextStyle(color: Colors.blue),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            deleteNews(thisNews, context);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            "Logout",
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   icon: const Icon(
                                     Icons.delete,
                                     color: Color.fromARGB(200, 244, 67, 54),
@@ -148,4 +187,43 @@ class _NewsPageState extends State<NewsPage> {
           ),
         ),
       );
+
+  void deleteNews(News thisNews, BuildContext context) {
+    FireStoreService().deleteNewsToFirestore(thisNews.id).then(
+          (data) => {
+            if (data!["success"])
+              {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    backgroundColor: Color.fromARGB(255, 28, 28, 28),
+                    content: Text(
+                      "News deleted.",
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 26,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                )
+              }
+            else
+              {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: const Color.fromARGB(255, 28, 28, 28),
+                    content: Text(
+                      data["error"],
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 26,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                )
+              }
+          },
+        );
+  }
 }

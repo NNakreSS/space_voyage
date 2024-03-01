@@ -89,12 +89,21 @@ class FireStoreService {
     }
   }
 
+  Future<Map?> deleteNewsToFirestore(String id) async {
+    try {
+      await newsCollection.doc(id).delete();
+      return {"success": true}; // Başarı durumunda true döndür
+    } catch (e) {
+      return {"success": false, "error": e}; // Hata durumunda false döndür
+    }
+  }
+
   Future<List<News>> getNewsToFirestore(News newsItem) async {
     final newsSnapshot = await newsCollection.get();
     List<News> newsList = [];
     for (var doc in newsSnapshot.docs) {
       Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
-      newsList.add(News.fromJson(data!));
+      newsList.add(News.fromJson(doc.id, data!));
     }
     return newsList;
   }
@@ -106,7 +115,7 @@ class FireStoreService {
         .map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        return News.fromJson(data);
+        return News.fromJson(doc.id, data);
       }).toList();
     });
   }
