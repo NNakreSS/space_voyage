@@ -52,7 +52,7 @@ class _PlanetDetailsState extends State<PlanetDetails> {
                             autoPlay: true,
                             autoRotate: true,
                             cameraControls: true,
-                            ar: true, //? arttırılmış gerçeklik modunu aktif et
+                            ar: false, //? arttırılmış gerçeklik modunu disabled
                           ),
                         )
                       : Image.asset(
