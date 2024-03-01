@@ -33,13 +33,15 @@ class _SignUpPageState extends State<SignUpPage> {
           backgroundColor: Colors.transparent,
           iconTheme: const IconThemeData(color: Colors.white),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              header(),
-              signUpForm(context),
-            ],
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                header(),
+                signUpForm(context),
+              ],
+            ),
           ),
         ),
       );

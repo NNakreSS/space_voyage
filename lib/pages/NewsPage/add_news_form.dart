@@ -73,40 +73,42 @@ class _AddNewsFormState extends State<AddNewsForm> {
                 textStyle: const TextStyle(color: Colors.white)),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                CustomTextFormField(
-                  controller: _titleController,
-                  labelText: "Title",
-                  icon: Icons.title,
-                  autoFocus: true,
-                ),
-                const SizedBox(height: 16.0),
-                CustomTextFormField(
-                  controller: _explanationController,
-                  labelText: "Explanation",
-                  icon: Icons.description,
-                  keyboardType: TextInputType.multiline,
-                  maxLine: 5,
-                ),
-                const SizedBox(height: 16.0),
-                CustomElevatedButton(
-                  backgroundColor: Colors.blue,
-                  onPressed: _submitForm,
-                  child: const Text(
-                    "Submit",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CustomTextFormField(
+                    controller: _titleController,
+                    labelText: "Title",
+                    icon: Icons.title,
+                    autoFocus: true,
+                  ),
+                  const SizedBox(height: 16.0),
+                  CustomTextFormField(
+                    controller: _explanationController,
+                    labelText: "Explanation",
+                    icon: Icons.description,
+                    keyboardType: TextInputType.multiline,
+                    maxLine: 5,
+                  ),
+                  const SizedBox(height: 16.0),
+                  CustomElevatedButton(
+                    backgroundColor: Colors.blue,
+                    onPressed: _submitForm,
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

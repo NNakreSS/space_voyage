@@ -30,28 +30,30 @@ class _SignInPageState extends State<SignInPage> {
           backgroundColor: Colors.transparent,
           iconTheme: const IconThemeData(color: Colors.white),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              header(),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    mailField(context),
-                    const SizedBox(height: 20.0),
-                    passwordField(context),
-                    const SizedBox(height: 20.0),
-                    loginButton(context),
-                  ],
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                header(),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      mailField(context),
+                      const SizedBox(height: 20.0),
+                      passwordField(context),
+                      const SizedBox(height: 20.0),
+                      loginButton(context),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              if (_loginError != "") errorMessage(),
-              const SizedBox(height: 10),
-              createAccountTextButton(context),
-            ],
+                const SizedBox(height: 10),
+                if (_loginError != "") errorMessage(),
+                const SizedBox(height: 10),
+                createAccountTextButton(context),
+              ],
+            ),
           ),
         ),
       );
