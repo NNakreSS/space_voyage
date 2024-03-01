@@ -21,63 +21,59 @@ class _Planets extends State<Planets> {
   Widget build(BuildContext context) => Scaffold(
         body: Stack(
           children: [
-            Positioned.fill(
-              child: ColorFiltered(
-                colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(.7),
-                  BlendMode.darken,
-                ),
-                child: Image.asset(
-                  "assets/images/dark_space.png",
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            PerspectiveListView(
-              visualizedItems: _visibleItems,
-              itemExtent: _itemExtent,
-              initialIndex: Planet.planets.length - 1,
-              enableBackItemsShadow: true,
-              backItemsShadowColor: Theme.of(context).scaffoldBackgroundColor,
-              padding: const EdgeInsets.all(20),
-              onTapFrontItem: (index) {
-                final planet = Planet.planets[index!];
-                Navigator.of(context).push(
-                    CustomPageRoute(child: PlanetDetails(planet: planet)));
-              },
-              onChangeFrontItem: (value) => setState(() {
-                _focusedIndex = value;
-              }),
-              // listenin elemanları
-              children: List.generate(
-                Planet.planets.length,
-                (index) {
-                  final planet = Planet.planets[index];
-                  return PlanetCard(
-                    planet: planet,
-                    isFocused: (index == _focusedIndex),
-                  );
-                },
-              ),
-            ),
-            Positioned(
-              right: 10,
-              top: 50,
-              child: GestureDetector(
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SolarSystem(),
-                    )),
-                child: Image.asset(
-                  "assets/images/solar-system.png",
-                  scale: 2,
-                ),
-              ),
-            ),
+            spaceListViewer(context),
+            solarSystemButton(context),
           ],
         ),
       );
+
+  Positioned solarSystemButton(BuildContext context) {
+    return Positioned(
+      right: 10,
+      top: 50,
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SolarSystem(),
+            )),
+        child: Image.asset(
+          "assets/images/solar-system.png",
+          scale: 2,
+        ),
+      ),
+    );
+  }
+
+  PerspectiveListView spaceListViewer(BuildContext context) {
+    return PerspectiveListView(
+      visualizedItems: _visibleItems,
+      itemExtent: _itemExtent,
+      initialIndex: Planet.planets.length - 1,
+      enableBackItemsShadow: true,
+      backItemsShadowColor: Theme.of(context).scaffoldBackgroundColor,
+      padding: const EdgeInsets.all(20),
+      onTapFrontItem: (index) {
+        final planet = Planet.planets[index!];
+        Navigator.of(context)
+            .push(CustomPageRoute(child: PlanetDetails(planet: planet)));
+      },
+      onChangeFrontItem: (value) => setState(() {
+        _focusedIndex = value;
+      }),
+      // listenin elemanları
+      children: List.generate(
+        Planet.planets.length,
+        (index) {
+          final planet = Planet.planets[index];
+          return PlanetCard(
+            planet: planet,
+            isFocused: (index == _focusedIndex),
+          );
+        },
+      ),
+    );
+  }
 }
 
 class CustomPageRoute extends PageRouteBuilder {

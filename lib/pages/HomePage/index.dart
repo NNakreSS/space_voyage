@@ -233,66 +233,66 @@ class _HomePageState extends State<HomePage> {
     return Expanded(
       child: Stack(children: [
         earthImage(),
-        Positioned(
-          right: 0,
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width / 2,
-            child: Text(
-              "Follow humanity's journey into space",
-              softWrap: true,
-              style: GoogleFonts.exo2(
-                textStyle: const TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+        textRight(context),
+        newsRouteButton(context)
+      ]),
+    );
+  }
+
+  Positioned newsRouteButton(BuildContext context) => Positioned(
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: MediaQuery.of(context).size.height * 0.07,
+        bottom: 0,
+        child: CustomElevatedButton(
+          backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
+          onPressed: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const NewsPage())),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.newspaper_outlined,
+                color: Colors.grey,
+              ),
+              Text(
+                "Space News",
+                style: GoogleFonts.exo(
+                  textStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
                 ),
               ),
-            ).animate().fade(duration: 500.ms).slide(
-                  begin: const Offset(1, 0),
-                  duration: 500.ms,
-                ),
+              const Icon(
+                Icons.arrow_forward_ios_sharp,
+                color: Colors.grey,
+              )
+            ],
           ),
         ),
-        Positioned(
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.07,
-          bottom: 0,
-          child: CustomElevatedButton(
-            backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const NewsPage())),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.newspaper_outlined,
-                        color: Colors.grey,
-                      ),
-                      Text(
-                        "Space News",
-                        style: GoogleFonts.exo(
-                          textStyle: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios_sharp,
-                        color: Colors.grey,
-                      )
-                    ],
-                  ),
-                )
-              ],
+      );
+
+  Positioned textRight(BuildContext context) {
+    return Positioned(
+      right: 0,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width / 2,
+        child: Text(
+          "Follow humanity's journey into space",
+          softWrap: true,
+          style: GoogleFonts.exo2(
+            textStyle: const TextStyle(
+              fontSize: 30.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
-        )
-      ]),
+        ).animate().fade(duration: 500.ms).slide(
+              begin: const Offset(1, 0),
+              duration: 500.ms,
+            ),
+      ),
     );
   }
 
@@ -317,40 +317,41 @@ class _HomePageState extends State<HomePage> {
   Widget logoutButton(BuildContext context) => CustomElevatedButton(
         backgroundColor: Colors.red,
         minimumSize: Size(MediaQuery.of(context).size.width, 0),
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                    title: const Text("Logout"),
-                    content: const Text(
-                      "Are you sure you want to logout?",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text(
-                          "Cancel",
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          AuthService().signOut();
-                          Navigator.pop(context);
-                        },
-                        child: const Text(
-                          "Logout",
-                          style: TextStyle(color: Colors.red),
-                        ),
-                      ),
-                    ],
-                  ));
-        },
+        onPressed: () => logoutOnClick(context),
         child: const Text(
           "Logout",
           style: TextStyle(
               color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+        ),
+      );
+
+  Future<dynamic> logoutOnClick(BuildContext context) => showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text("Logout"),
+          content: const Text(
+            "Are you sure you want to logout?",
+            style: TextStyle(fontSize: 20),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                "Cancel",
+                style: TextStyle(color: Colors.blue),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                AuthService().signOut();
+                Navigator.pop(context);
+              },
+              child: const Text(
+                "Logout",
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
         ),
       );
 

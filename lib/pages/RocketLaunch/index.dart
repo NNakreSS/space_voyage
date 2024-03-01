@@ -82,81 +82,93 @@ class _RocketLaunchListState extends State<RocketLaunchList> {
                 itemBuilder: (context, index) {
                   final rocketLaunch = rocketLaunches[index];
                   return MyTimeline(
-                    timeBox: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        // Header
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text(
-                            rocketLaunch.companyName,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.blue),
-                          ),
-                        ),
-                        // Body
-                        Expanded(
-                          child: ListView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: [
-                              customListTile(
-                                title: "Location of the Launch",
-                                subtitle: rocketLaunch.location,
-                              ),
-                              customListTile(
-                                title: "Rocket Name",
-                                subtitle: rocketLaunch.detail,
-                              ),
-                              customListTile(
-                                title: "Rocket Status",
-                                subtitle: rocketLaunch.rocketStatus
-                                    .replaceAll("Status", ""),
-                              ),
-                              customListTile(
-                                title: "Cost of the mission",
-                                subtitle:
-                                    "\$ ${rocketLaunch.rocketCost ?? "?"} million",
-                              ),
-                            ],
-                          ),
-                        ),
-                        // Footer
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: rocketLaunch.missionStatus == "Success"
-                                      ? Colors.green
-                                      : Colors.red),
-                              child: Text(
-                                rocketLaunch.missionStatus,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              rocketLaunch.date,
-                              softWrap: true,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Color.fromARGB(255, 220, 220, 220),
-                              ),
-                            )
-                          ],
-                        ), // Adjust the space as needed
-                      ],
-                    ),
+                    timeBox: timeLineCard(rocketLaunch),
                   );
                 },
               ),
             ),
           ],
+        ),
+      );
+
+  Column timeLineCard(RocketLaunch rocketLaunch) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Header
+        header(rocketLaunch),
+        // Body
+        body(rocketLaunch),
+        // Footer
+        footer(rocketLaunch),
+      ],
+    );
+  }
+
+  Row footer(RocketLaunch rocketLaunch) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        //? Mission status
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: rocketLaunch.missionStatus == "Success"
+                  ? Colors.green
+                  : Colors.red),
+          child: Text(
+            rocketLaunch.missionStatus,
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+        //? launch date
+        Text(
+          rocketLaunch.date,
+          softWrap: true,
+          style: const TextStyle(
+            fontSize: 12,
+            color: Color.fromARGB(255, 220, 220, 220),
+          ),
+        )
+      ],
+    );
+  }
+
+  Expanded body(RocketLaunch rocketLaunch) => Expanded(
+        child: ListView(
+          physics: const NeverScrollableScrollPhysics(),
+          //? launch infos
+          children: [
+            customListTile(
+              title: "Location of the Launch",
+              subtitle: rocketLaunch.location,
+            ),
+            customListTile(
+              title: "Rocket Name",
+              subtitle: rocketLaunch.detail,
+            ),
+            customListTile(
+              title: "Rocket Status",
+              subtitle: rocketLaunch.rocketStatus.replaceAll("Status", ""),
+            ),
+            customListTile(
+              title: "Cost of the mission",
+              subtitle: "\$ ${rocketLaunch.rocketCost ?? "?"} million",
+            ),
+          ],
+        ),
+      );
+
+//? company name
+  Padding header(RocketLaunch rocketLaunch) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(
+          rocketLaunch.companyName,
+          style: const TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blue),
         ),
       );
 

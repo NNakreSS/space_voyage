@@ -41,31 +41,30 @@ class UserProfile extends StatelessWidget {
           } else {
             if (snapshot.hasData) {
               final Map? userInfo = snapshot.data;
-
               return ListView(
-                children: userInfo!.entries.map((entry) {
-                  return ListTile(
-                    leading: const Icon(
-                      Icons.circle_outlined,
-                      color: Colors.blue,
-                    ),
-                    title: Text(
-                      entry.key.toString().toUpperCase(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                    subtitle: Text(
-                      entry.value.toString(),
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                      ),
-                    ),
-                  );
-                }).toList(),
+                children: userInfo!.entries
+                    .map((entry) => ListTile(
+                          leading: const Icon(
+                            Icons.circle_outlined,
+                            color: Colors.blue,
+                          ),
+                          title: Text(
+                            entry.key.toString().toUpperCase(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                          subtitle: Text(
+                            entry.value.toString(),
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ))
+                    .toList(),
               );
             } else {
               return const Center(
