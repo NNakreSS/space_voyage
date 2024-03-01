@@ -45,11 +45,7 @@ class AuthService {
       );
 
       if (userCredential.user != null) {
-        _registerUser(
-            name: name,
-            email: email,
-            password: password,
-            uid: userCredential.user!.uid);
+        _registerUser(name: name, email: email, uid: userCredential.user!.uid);
       }
 
       return null;
@@ -73,12 +69,10 @@ class AuthService {
   Future<void> _registerUser(
       {required String name,
       required String email,
-      required String password,
       required String uid}) async {
     await userCollection.doc(uid).set({
       "name": name,
       "email": email,
-      "password": password,
       "admin": false,
     });
   }
