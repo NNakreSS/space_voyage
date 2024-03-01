@@ -8,13 +8,14 @@ class CustomTextFormField extends StatelessWidget {
   final bool? autoFocus;
   final int? maxLine;
   final TextInputType? keyboardType;
-
+  final String? Function(String?)? validator;
   const CustomTextFormField(
       {Key? key,
       this.password,
       this.maxLine,
       this.autoFocus,
       this.keyboardType,
+      this.validator,
       required this.controller,
       required this.labelText,
       required this.icon})
@@ -43,5 +44,6 @@ class CustomTextFormField extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.blue[300]!)),
         ),
+        validator: validator,
       );
 }

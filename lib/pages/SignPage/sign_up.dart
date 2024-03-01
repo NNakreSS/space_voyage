@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:space_voyage/Helpers/validate.dart';
 import 'package:space_voyage/widgets/text_field.dart';
 import 'package:space_voyage/services/auth_service.dart';
 
@@ -14,6 +15,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  String _errorMessage = "";
 
   @override
   void dispose() {
@@ -35,17 +38,40 @@ class _SignUpPageState extends State<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               header(),
-              nameFields(context),
-              const SizedBox(height: 10),
-              mailField(context),
-              const SizedBox(height: 10.0),
-              passwordField(context),
-              const SizedBox(height: 30.0),
-              signUpButton(),
+              signUpForm(context),
             ],
           ),
         ),
       );
+
+  Form signUpForm(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          nameFields(context),
+          const SizedBox(height: 10),
+          mailField(context),
+          const SizedBox(height: 10.0),
+          passwordField(context),
+          const SizedBox(height: 30.0),
+          if (_errorMessage != "") errorMessage(),
+          const SizedBox(height: 30.0),
+          signUpButton(),
+        ],
+      ),
+    );
+  }
+
+  Text errorMessage() {
+    return Text(
+      _errorMessage,
+      style: const TextStyle(
+        color: Colors.red,
+        fontSize: 12,
+      ),
+    );
+  }
 
   ElevatedButton signUpButton() {
     return ElevatedButton(
@@ -55,14 +81,20 @@ class _SignUpPageState extends State<SignUpPage> {
         backgroundColor: Colors.blue,
       ),
       onPressed: () async {
-        final email = _usermailController.text;
-        final password = _passwordController.text;
-        final firstname = _firstnameController.text;
-        final lastname = _lastnameController.text;
-        final name = "$firstname $lastname";
-        final isSignUp = await AuthService()
-            .signUp(name: name, email: email, password: password);
-        if (isSignUp != null) Navigator.pop(context);
+        if (_formKey.currentState!.validate()) {
+          final email = _usermailController.text;
+          final password = _passwordController.text;
+          final firstname = _firstnameController.text;
+          final lastname = _lastnameController.text;
+          final name = "$firstname $lastname";
+          final error = await AuthService()
+              .signUp(name: name, email: email, password: password);
+          if (error == null) {
+            Navigator.pop(context);
+          } else {
+            _errorMessage = error;
+          }
+        }
       },
       child: const Text(
         'Sign Up',
@@ -84,6 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
         icon: Icons.lock,
         password: true,
         keyboardType: TextInputType.visiblePassword,
+        validator: isEmptyFieldValitede,
       ),
     );
   }
@@ -93,9 +126,10 @@ class _SignUpPageState extends State<SignUpPage> {
       width: MediaQuery.of(context).size.width * 0.9,
       child: CustomTextFormField(
         controller: _usermailController,
-        labelText: "eMail",
+        labelText: "E-mail",
         icon: Icons.mail,
         keyboardType: TextInputType.emailAddress,
+        validator: emailValidator,
       ),
     );
   }
@@ -111,6 +145,7 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: _firstnameController,
               labelText: "First Name",
               icon: Icons.person,
+              validator: isEmptyFieldValitede,
             ),
           ),
           const SizedBox(width: 10),
@@ -119,6 +154,7 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: _lastnameController,
               labelText: "Last Name",
               icon: Icons.person,
+              validator: isEmptyFieldValitede,
             ),
           ),
         ],

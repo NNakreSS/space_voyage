@@ -9,27 +9,31 @@ class AuthService {
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
 // kullanıcı giriş
-  Future<User?> signIn(
+  Future<String?> signIn(
       {required String email, required String password}) async {
     try {
-      final UserCredential userCredential =
-          await _auth.signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-
-      return userCredential.user;
+      return null;
     } on FirebaseAuthException catch (e) {
-      print(e);
-      return null;
+      if (e.code == 'invalid-email') {
+        return 'Invalid email address. Please enter a valid email address.';
+      } else if (e.code == 'wrong-password') {
+        return 'Incorrect password. Please enter the correct password.';
+      } else if (e.code == 'invalid-credential') {
+        return "Invalid email or password.";
+      } else {
+        return 'An error occurred: ${e.message}';
+      }
     } catch (e) {
-      print(e);
-      return null;
+      return e.toString();
     }
   }
 
 // kullanıcı kayıt
-  Future<User?> signUp(
+  Future<String?> signUp(
       {required String name,
       required String email,
       required String password}) async {
@@ -48,13 +52,15 @@ class AuthService {
             uid: userCredential.user!.uid);
       }
 
-      return userCredential.user;
+      return null;
     } on FirebaseAuthException catch (e) {
-      print(e.message);
-      return null;
+      if (e.code == "email-already-in-use") {
+        return "Email already in use";
+      } else {
+        return 'An error occurred: ${e.message}';
+      }
     } catch (e) {
-      print(e);
-      return null;
+      return e.toString();
     }
   }
 

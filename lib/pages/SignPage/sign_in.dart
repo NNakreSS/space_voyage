@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:space_voyage/Helpers/validate.dart';
 import 'package:space_voyage/widgets/text_field.dart';
 import 'package:space_voyage/pages/SignPage/sign_up.dart';
 import 'package:space_voyage/services/auth_service.dart';
@@ -13,6 +14,8 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   final TextEditingController _usermailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  String _loginError = "";
 
   @override
   void dispose() {
@@ -32,15 +35,33 @@ class _SignInPageState extends State<SignInPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               header(),
-              mailField(context),
-              const SizedBox(height: 20.0),
-              passwordField(context),
-              const SizedBox(height: 20.0),
-              loginButton(context),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    mailField(context),
+                    const SizedBox(height: 20.0),
+                    passwordField(context),
+                    const SizedBox(height: 20.0),
+                    loginButton(context),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10),
+              if (_loginError != "") errorMessage(),
               const SizedBox(height: 10),
               createAccountTextButton(context),
             ],
           ),
+        ),
+      );
+
+  errorMessage() => Text(
+        softWrap: true,
+        _loginError,
+        style: const TextStyle(
+          color: Colors.red,
+          fontSize: 12.0,
         ),
       );
 
@@ -93,11 +114,19 @@ class _SignInPageState extends State<SignInPage> {
         backgroundColor: Colors.blue,
       ),
       onPressed: () async {
-        final email = _usermailController.text;
-        final password = _passwordController.text;
-        final isLogin =
-            await AuthService().signIn(email: email, password: password);
-        if (isLogin != null) Navigator.pop(context);
+        if (_formKey.currentState!.validate()) {
+          final email = _usermailController.text;
+          final password = _passwordController.text;
+          final error =
+              await AuthService().signIn(email: email, password: password);
+          if (error == null) {
+            Navigator.pop(context);
+          } else {
+            setState(() {
+              _loginError = error;
+            });
+          }
+        }
       },
       child: const Text(
         'Login',
@@ -119,6 +148,7 @@ class _SignInPageState extends State<SignInPage> {
         icon: Icons.lock,
         password: true,
         keyboardType: TextInputType.visiblePassword,
+        validator: isEmptyFieldValitede,
       ),
     );
   }
@@ -128,9 +158,10 @@ class _SignInPageState extends State<SignInPage> {
       width: MediaQuery.of(context).size.width * 0.9,
       child: CustomTextFormField(
         controller: _usermailController,
-        labelText: "Mail",
+        labelText: "E-mail",
         icon: Icons.mail,
         keyboardType: TextInputType.emailAddress,
+        validator: emailValidator,
       ),
     );
   }
