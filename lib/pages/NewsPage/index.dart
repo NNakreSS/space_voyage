@@ -185,7 +185,7 @@ class _NewsPageState extends State<NewsPage> {
                     Navigator.pop(context);
                   },
                   child: const Text(
-                    "Logout",
+                    "Delete",
                     style: TextStyle(color: Colors.red),
                   ),
                 ),
