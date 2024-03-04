@@ -30,8 +30,9 @@ class FireStoreService {
             snapshot.data() as Map<String, dynamic>?;
         if (data != null && data['favorites'] != null) {
           final List<dynamic> favoriteDataList = data['favorites'];
-          final List<NasaImage> favorites =
-              favoriteDataList.map((data) => NasaImage.fromJson(data)).toList();
+          final List<NasaImage> favorites = favoriteDataList.reversed
+              .map((data) => NasaImage.fromJson(data))
+              .toList();
           return favorites;
         }
       }
