@@ -21,28 +21,6 @@ class FireStoreService {
     }
   }
 
-  // Kullanıcının favori görsellerini getirme
-  Future<List<NasaImage>> getFavorites(String userId) async {
-    try {
-      final DocumentSnapshot snapshot = await userCollection.doc(userId).get();
-      if (snapshot.exists) {
-        final Map<String, dynamic>? data =
-            snapshot.data() as Map<String, dynamic>?;
-        if (data != null && data['favorites'] != null) {
-          final List<dynamic> favoriteDataList = data['favorites'];
-          final List<NasaImage> favorites = favoriteDataList.reversed
-              .map((data) => NasaImage.fromJson(data))
-              .toList();
-          return favorites;
-        }
-      }
-      return [];
-    } catch (e) {
-      print("Error getting favorites: $e");
-      throw e;
-    }
-  }
-
   // Kullanıcının belirli bir görseli favorilerden çıkarması
   Future<void> removeFavorite(String userId, NasaImage imageData) async {
     try {
@@ -64,8 +42,9 @@ class FireStoreService {
             snapshot.data() as Map<String, dynamic>?;
         if (data != null && data['favorites'] != null) {
           final List<dynamic> favoriteDataList = data['favorites'];
-          final List<NasaImage> favorites =
-              favoriteDataList.map((data) => NasaImage.fromJson(data)).toList();
+          final List<NasaImage> favorites = favoriteDataList.reversed
+              .map((data) => NasaImage.fromJson(data))
+              .toList();
           return favorites;
         }
       }
