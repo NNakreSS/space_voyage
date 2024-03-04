@@ -272,7 +272,7 @@ class _ImageDetailsState extends State<ImageDetails> {
     final User? user = AuthService().currentUser;
     if (user != null) {
       final List<NasaImage> favoriteImages =
-          await FireStoreService().getFavorites(user.uid);
+          await FireStoreService().getUserFavorites(user.uid);
       final isFav = favoriteImages.any((item) => item.url == image.url);
       setState(() {
         isFavorite = isFav;
